@@ -13,51 +13,45 @@ import {
   Button,
   TouchableOpacity,
   SafeAreaView,
+  Alert
 } from "react-native";
 import Divider from "../components/Divider";
 import Header from "../components/Header";
 import InputBox from "../components/InputBox";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 
-const Login = () => {
+const Signup = () => {
+  const [name, setName] = useState<string>("");
+  const [dOB, setDOB] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [mobileNum, setMobileNum] = useState<string>("");
+  const [noOfResidents, setNoOfResidents] = useState<string>("");
+  const [unit, setUnit] = useState<string>("");
+  const [genre, setGenre] = useState<string>("");
+  const [hobby, setHobby] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<boolean>(false);
+  const [degree, setDegree] = useState<string>("");
+  
   const loginWithGoogle = () => {
-    console.log("backkk")
-    // createUserWithEmailAndPassword(auth, "test@test.com", "test@123")
-    //   .then((userCredential) => {
-    //     // Signed in  
-    //     console.log("success")
-    //     const user = userCredential.user;
-    //     // ...
-    //   })
-    //   .catch((error) => {
-
-    //     console.log("failing")
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     // ..
-    //   });
-    // signInWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     // Signed in 
-    //     const user = userCredential.user;
-    //     // ...
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //   });
+  
+  };
+  const register = () => {
+    
+    console.log("button presed")
     const db = getFirestore(app);
-    const dbRef = collection(db, "visitors");
+    const dbRef = collection(db, "residents");
     const data = {
-      license_plate_number:"ABSG",
-      car_make: "steel",
-      car_model: "Audi",
-      state_registered:"Telangana",
-      unit:"2",
-      year:"2023"
+      name:name,
+      dob: dOB,
+      email: email,
+      mobile_num:mobileNum,
+      no_of_residents:noOfResidents,
+      unit:unit,
+      genre:genre,
+      hobby:hobby,
+      password:password,
+      degree:degree
     };
     addDoc(dbRef, data)
       .then(docRef => {
@@ -69,14 +63,18 @@ const Login = () => {
 
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Login" goBack={loginWithGoogle} />
+      <Header title="Welcome!" goBack={loginWithGoogle} />
       <Divider height={50} />
-      <InputBox placeholder="email" value={email} onChangeText={setEmail} />
+      <InputBox placeholder="Email" value={email} onChangeText={setEmail}  />
       <Divider height={30} />
-      <InputBox placeholder="password" value={password} onChangeText={setPassword} type="password" />
+      <InputBox placeholder="Your password" value={password} onChangeText={setPassword}  />
+      <Divider height={50} />
+      <Button
+        title="SUBMIT"
+        onPress={register}
+      />
 
     </SafeAreaView>
   );
@@ -111,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Signup;
