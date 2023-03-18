@@ -4,7 +4,13 @@ import Home from './src/screens/Home';
 import Login from './src/screens/Login';
 import Visitor from './src/screens/Visitor';
 import Resident from './src/screens/Resident';
+import SignUpScreen from './src/screens/Signup';
 import { useFonts } from 'expo-font';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+
+const Stack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -15,14 +21,24 @@ export default function App() {
     'Inter-SemiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
     'PTMono-Regular': require('./assets/fonts/PTMono-Regular.ttf'),
   });
-  if(fontsLoaded){
-    return (
-      <Resident />
-    )
-  }
-  return <View style={styles.container}>
-    <Text>Loading ...</Text>
-  </View>
+  // if(fontsLoaded){
+  //   return (
+  //     <SignUpScreen />
+  //   )
+  // }
+
+
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SignUpScreen">
+       <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="Visitor" component={Visitor} />
+        <Stack.Screen name="Resident" component={Resident} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+
 }
 
 const styles = StyleSheet.create({

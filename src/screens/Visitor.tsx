@@ -58,7 +58,7 @@ const Visitor = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Welcome Visitor" goBack={loginWithGoogle} />
+      <Text>Welcome!</Text>
       <Divider height={50} />
       <InputBox placeholder="Vehicle License Plate"  value={vehicleLicense} onChangeText={setVehicleLicense} />
       <Divider height={30} />
@@ -86,27 +86,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     paddingTop: 60,
-  },
-  header: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  headerText: {
-    width: "100%",
-    fontFamily: "PTMono-Regular",
-    fontSize: 30,
-    textAlign: "center",
-  },
-  topLeft: {
-    position: "absolute",
-    left: 10,
-    top: 5,
-    zIndex: 10,
   },
 });
 

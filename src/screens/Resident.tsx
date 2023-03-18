@@ -65,7 +65,7 @@ const Resident = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Welcome!" goBack={loginWithGoogle} />
+      <Text>Welcome!</Text>
       <Divider height={50} />
       <InputBox placeholder="Name"  value={name} onChangeText={setName} />
       <Divider height={30} />
