@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
+import Visitor from './src/screens/Visitor';
+import Resident from './src/screens/Resident';
 import { useFonts } from 'expo-font';
 
 export default function App() {
@@ -15,7 +17,7 @@ export default function App() {
   });
   if(fontsLoaded){
     return (
-      <Login />
+      <Resident />
     )
   }
   return <View style={styles.container}>

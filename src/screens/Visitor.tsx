@@ -13,51 +13,38 @@ import {
   Button,
   TouchableOpacity,
   SafeAreaView,
+  Alert
 } from "react-native";
 import Divider from "../components/Divider";
 import Header from "../components/Header";
 import InputBox from "../components/InputBox";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 
-const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<boolean>(false);
+const Visitor = () => {
+  const [vehicleLicense, setVehicleLicense] = useState<string>("");
+  const [carMake, setCarMake] = useState<string>("");
+  const [carModel, setCarModel] = useState<string>("");
+  const [year, setYear] = useState<string>("");
+  const [stateRegistered, setStateRegistered] = useState<string>("");
+  const [unit, setUnit] = useState<string>("");
+  
   const loginWithGoogle = () => {
-    console.log("backkk")
-    // createUserWithEmailAndPassword(auth, "test@test.com", "test@123")
-    //   .then((userCredential) => {
-    //     // Signed in  
-    //     console.log("success")
-    //     const user = userCredential.user;
-    //     // ...
-    //   })
-    //   .catch((error) => {
-
-    //     console.log("failing")
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //     // ..
-    //   });
-    // signInWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     // Signed in 
-    //     const user = userCredential.user;
-    //     // ...
-    //   })
-    //   .catch((error) => {
-    //     const errorCode = error.code;
-    //     const errorMessage = error.message;
-    //   });
+    
+    console.log(vehicleLicense)
+  };
+  const register = () => {
+    
+    console.log("button presed")
     const db = getFirestore(app);
     const dbRef = collection(db, "visitors");
     const data = {
-      license_plate_number:"ABSG",
-      car_make: "steel",
-      car_model: "Audi",
-      state_registered:"Telangana",
-      unit:"2",
-      year:"2023"
+      license_plate_number:vehicleLicense,
+      car_make: carMake,
+      car_model: carModel,
+      state_registered:stateRegistered,
+      unit:unit,
+      year:year
     };
     addDoc(dbRef, data)
       .then(docRef => {
@@ -69,14 +56,26 @@ const Login = () => {
 
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Login" goBack={loginWithGoogle} />
+      <Header title="Welcome Visitor" goBack={loginWithGoogle} />
       <Divider height={50} />
-      <InputBox placeholder="email" value={email} onChangeText={setEmail} />
+      <InputBox placeholder="Vehicle License Plate"  value={vehicleLicense} onChangeText={setVehicleLicense} />
       <Divider height={30} />
-      <InputBox placeholder="password" value={password} onChangeText={setPassword} type="password" />
+      <InputBox placeholder="Car make" value={carMake} onChangeText={setCarMake} />
+      <Divider height={30} />
+      <InputBox placeholder="Car model" value={carModel} onChangeText={setCarModel}  />
+      <Divider height={30} />
+      <InputBox placeholder="Year" value={year} onChangeText={setYear}  />
+      <Divider height={30} />
+      <InputBox placeholder="State of registration" value={stateRegistered} onChangeText={setStateRegistered}  />
+      <Divider height={30} />
+      <InputBox placeholder="UNIT"  value={unit} onChangeText={setUnit} />
+      <Divider height={50} />
+      <Button
+        title="Register now"
+        onPress={register}
+      />
 
     </SafeAreaView>
   );
@@ -111,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Visitor;
