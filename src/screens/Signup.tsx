@@ -20,8 +20,8 @@ const SignUpScreen: React.FC<SignupProps> = ({ navigation }) => {
   return (
     <View>
       <Text>New User Register as</Text>
-      <Button title="RESIDENT" onPress={() => handlePress('Resident')} />
-      <Button title="VISITOR" onPress={() => handlePress('Visitor')} />
+      <Button title="RESIDENT" onPress={() => handlePress('resident')} />
+      <Button title="VISITOR" onPress={() => handlePress('visitor')} />
     </View>
   );
 };

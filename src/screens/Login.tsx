@@ -17,6 +17,7 @@ import {
 import Divider from "../components/Divider";
 import Header from "../components/Header";
 import InputBox from "../components/InputBox";
+import { userInfo } from "os";
 
 interface LoginProps {
   navigation: any;
@@ -31,10 +32,11 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
+        console.log(userCredential)
         const user = userCredential.user;
         const roleRef = collection(db, "roles");
     
-      
+        
         const resDocRef = doc(roleRef, user.uid);
         getDoc(resDocRef)
         .then((doc) => {
