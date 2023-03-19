@@ -22,8 +22,9 @@ import {
 } from "react-native";
 import Divider from "../components/Divider";
 import Header from "../components/Header";
-import InputBox from "../components/InputBox";
+import InputBox from "../components/InputBox/InputBox";
 import { text } from "@fortawesome/fontawesome-svg-core";
+import Container from "../components/Container/Container";
 
 const Resident = () => {
   const [name, setName] = useState<string>("");

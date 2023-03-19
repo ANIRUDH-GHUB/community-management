@@ -16,8 +16,7 @@ import {
 } from "react-native";
 import Divider from "../components/Divider";
 import Header from "../components/Header";
-import InputBox from "../components/InputBox";
-import { userInfo } from "os";
+import InputBox from "../components/InputBox/InputBox";
 
 interface LoginProps {
   navigation: any;
