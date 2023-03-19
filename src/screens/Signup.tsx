@@ -1,84 +1,31 @@
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { auth, app } from "../../firebase"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import React, { useState } from "react";
+import React from "react";
+
 import {
   StyleSheet,
   Text,
   View,
-  Image,
-  TextInput,
-  Button,
-  TouchableOpacity,
-  SafeAreaView,
-  Alert
-} from "react-native";
-import Divider from "../components/Divider";
-import Header from "../components/Header";
-import InputBox from "../components/InputBox";
-import { text } from "@fortawesome/fontawesome-svg-core";
+  Button} from "react-native";
 
 
-const Signup = () => {
-  const [name, setName] = useState<string>("");
-  const [dOB, setDOB] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [mobileNum, setMobileNum] = useState<string>("");
-  const [noOfResidents, setNoOfResidents] = useState<string>("");
-  const [unit, setUnit] = useState<string>("");
-  const [genre, setGenre] = useState<string>("");
-  const [hobby, setHobby] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [degree, setDegree] = useState<string>("");
-  
-  const loginWithGoogle = () => {
-  
-  };
-  const register = () => {
-    
-    console.log("button presed")
-    const db = getFirestore(app);
-    const dbRef = collection(db, "residents");
-    const data = {
-      name:name,
-      dob: dOB,
-      email: email,
-      mobile_num:mobileNum,
-      no_of_residents:noOfResidents,
-      unit:unit,
-      genre:genre,
-      hobby:hobby,
-      password:password,
-      degree:degree
-    };
-    addDoc(dbRef, data)
-      .then(docRef => {
-        console.log("Document has been added successfully");
-      })
-      .catch(error => {
-        console.log(error);
-      })
+interface SignupProps {
+  navigation: any;
+}
 
+const SignUpScreen: React.FC<SignupProps> = ({ navigation }) => {
+  const handlePress = (screenName: string) => {
+    console.log(screenName)
+    navigation.navigate(screenName);
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Header title="Welcome!" goBack={loginWithGoogle} />
-      <Divider height={50} />
-      <InputBox placeholder="Email" value={email} onChangeText={setEmail}  />
-      <Divider height={30} />
-      <InputBox placeholder="Your password" value={password} onChangeText={setPassword}  />
-      <Divider height={50} />
-      <Button
-        title="SUBMIT"
-        onPress={register}
-      />
-
-    </SafeAreaView>
+    <View>
+      <Text>New User Register as</Text>
+      <Button title="RESIDENT" onPress={() => handlePress('resident')} />
+      <Button title="VISITOR" onPress={() => handlePress('visitor')} />
+    </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -109,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Signup;
+export default SignUpScreen;

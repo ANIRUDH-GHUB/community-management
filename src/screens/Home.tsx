@@ -1,10 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,Button } from 'react-native';
 
-export default function App() {
+interface HomeProps {
+  navigation: any;
+}
+
+const Home: React.FC<HomeProps> = ({ navigation }) => {
+  const handlePress = (screenName: string) => {
+    console.log(screenName)
+    navigation.navigate(screenName);
+  };
+
+
   return (
     <View style={styles.container}>
-      <Text>This is Home componetn</Text>
+      <Button title="LOGIN" onPress={() => handlePress('Login')} />
+      <Button title="REGISTER" onPress={() => handlePress('SignUp')} />
     </View>
   );
 }
@@ -17,3 +28,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+export default Home;
