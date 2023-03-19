@@ -13,15 +13,14 @@ interface SignupProps {
 
 const SignUpScreen: React.FC<SignupProps> = ({ navigation }) => {
   const handlePress = (screenName: string) => {
-    console.log(screenName)
     navigation.navigate(screenName);
   };
 
   return (
     <View>
       <Text>New User Register as</Text>
-      <Button title="RESIDENT" onPress={() => handlePress('resident')} />
-      <Button title="VISITOR" onPress={() => handlePress('visitor')} />
+      <Button title="RESIDENT" onPress={() => handlePress('Resident')} />
+      <Button title="VISITOR" onPress={() => handlePress('Visitor')} />
     </View>
   );
 };
