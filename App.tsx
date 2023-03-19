@@ -2,13 +2,26 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Home from './src/screens/Home';
 import Login from './src/screens/Login';
+import ResidentHome from './src/screens/ResidentHome';
 import Visitor from './src/screens/Visitor';
 import Resident from './src/screens/Resident';
 import SignUpScreen from './src/screens/Signup';
 import { useFonts } from 'expo-font';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+
+const Tab = createBottomTabNavigator();
+
+function MainTabNavigator() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Resident" component={Resident} />
+      <Tab.Screen name="Visitor" component={Visitor} />
+    </Tab.Navigator>
+  );
+}
 
 const Stack = createStackNavigator();
 
@@ -21,20 +34,24 @@ export default function App() {
     'Inter-SemiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
     'PTMono-Regular': require('./assets/fonts/PTMono-Regular.ttf'),
   });
-  // if(fontsLoaded){
-  //   return (
-  //     <SignUpScreen />
-  //   )
-  // }
+  if(!fontsLoaded){
+    return (
+      <Text>Loading...</Text>
+    )
+  }
 
-
+  
+  
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignUpScreen">
+      <Stack.Navigator initialRouteName="Home">
        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="Visitor" component={Visitor} />
-        <Stack.Screen name="Resident" component={Resident} />
+       <Stack.Screen name="residentHome" component={MainTabNavigator} />
+       <Stack.Screen name="Home" component={Home} />
+       <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="visitor" component={Visitor} />
+        <Stack.Screen name="resident" component={Resident} />
       </Stack.Navigator>
     </NavigationContainer>
   );

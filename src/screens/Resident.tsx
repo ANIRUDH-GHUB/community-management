@@ -1,9 +1,14 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { auth, app } from "../../firebase"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { auth, app } from "../../firebase";
+
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { getFirestore, collection, addDoc,getDocFromCache,getDoc,setDoc,doc } from "firebase/firestore";
 import React, { useState } from "react";
+
 import {
   StyleSheet,
   Text,
@@ -13,13 +18,12 @@ import {
   Button,
   TouchableOpacity,
   SafeAreaView,
-  Alert
+  Alert,
 } from "react-native";
 import Divider from "../components/Divider";
 import Header from "../components/Header";
 import InputBox from "../components/InputBox";
 import { text } from "@fortawesome/fontawesome-svg-core";
-
 
 const Resident = () => {
   const [name, setName] = useState<string>("");
@@ -32,68 +36,102 @@ const Resident = () => {
   const [hobby, setHobby] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [degree, setDegree] = useState<string>("");
-  
-  const loginWithGoogle = () => {
-  
-  };
-  const register = () => {
-    
-    console.log("button presed")
-    const db = getFirestore(app);
-    const dbRef = collection(db, "residents");
-    const data = {
-      name:name,
-      dob: dOB,
-      email: email,
-      mobile_num:mobileNum,
-      no_of_residents:noOfResidents,
-      unit:unit,
-      genre:genre,
-      hobby:hobby,
-      password:password,
-      degree:degree
-    };
-    addDoc(dbRef, data)
-      .then(docRef => {
-        console.log("Document has been added successfully");
-      })
-      .catch(error => {
-        console.log(error);
-      })
 
-  };
+  const loginWithGoogle = () => {};
+  const register = () => {
+    const db = getFirestore(app);
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((response) => {
+        console.log(response);
+        const uid = response.user.uid;
+        const data = {
+          name: name,
+          dob: dOB,
+          mobile_num: mobileNum,
+          no_of_residents: noOfResidents,
+          unit: unit,
+          genre: genre,
+          hobby: hobby,
+          degree: degree,
+        };
+        const roleRef = collection(db, "roles");
+        const resRef = collection(db, "residents");
+        const roleData = {
+          role: "resident",
+        };
+      
+        const resDocRef = doc(resRef, uid);
+        setDoc(resDocRef, data)
+          .then(() => {
+            console.log("Document has been added successfully with custom ID:", uid);
+          })
+          .catch((error) => {
+            console.error("Error adding document: ", error);
+          });
+        
+          const roleDocRef = doc(roleRef, uid);
+          setDoc(roleDocRef, roleData)
+            .then(() => {
+              console.log("Document has been added successfully with custom ID:", uid);
+            })
+            .catch((error) => {
+              console.error("Error adding document: ", error);
+            });
+  });
+}
 
   return (
     <SafeAreaView style={styles.container}>
       <Text>Welcome!</Text>
       <Divider height={50} />
-      <InputBox placeholder="Name"  value={name} onChangeText={setName} />
+      <InputBox placeholder="Name" value={name} onChangeText={setName} />
       <Divider height={30} />
-      <InputBox placeholder="DOB(MM/DD/YYYY)" value={dOB} onChangeText={setDOB} />
-      <Divider height={30} />
-      <InputBox placeholder="Email" value={email} onChangeText={setEmail}  />
-      <Divider height={30} />
-      <InputBox placeholder="Mobile Number" value={mobileNum} onChangeText={setMobileNum}  />
-      <Divider height={30} />
-      <InputBox placeholder="Number of Residents" value={noOfResidents} onChangeText={setNoOfResidents}  />
-      <Divider height={30} />
-      <InputBox placeholder="UNIT"  value={unit} onChangeText={setUnit} />
-      <Divider height={30} />
-      <InputBox placeholder="Movie Geners" value={genre} onChangeText={setGenre}  />
-      <Divider height={30} />
-      <InputBox placeholder="Hobbies" value={hobby} onChangeText={setHobby}  />
-      <Divider height={30} />
-      <InputBox placeholder="Higgest Degree" value={degree} onChangeText={setDegree}  />
-      <Divider height={30} />
-      <InputBox placeholder="Your password" value={password} onChangeText={setPassword}  />
-      <Divider height={30} />
-     
-      <Divider height={50} />
-      <Button
-        title="SUBMIT"
-        onPress={register}
+      <InputBox
+        placeholder="DOB(MM/DD/YYYY)"
+        value={dOB}
+        onChangeText={setDOB}
       />
+      <Divider height={30} />
+      <InputBox placeholder="Email" value={email} onChangeText={setEmail} />
+      <Divider height={30} />
+      <InputBox
+        placeholder="Mobile Number"
+        value={mobileNum}
+        onChangeText={setMobileNum}
+      />
+      <Divider height={30} />
+      <InputBox
+        placeholder="Number of Residents"
+        value={noOfResidents}
+        onChangeText={setNoOfResidents}
+      />
+      <Divider height={30} />
+      <InputBox placeholder="UNIT" value={unit} onChangeText={setUnit} />
+      <Divider height={30} />
+      <InputBox
+        placeholder="Movie Geners"
+        value={genre}
+        onChangeText={setGenre}
+      />
+      <Divider height={30} />
+      <InputBox placeholder="Hobbies" value={hobby} onChangeText={setHobby} />
+      <Divider height={30} />
+      <InputBox
+        placeholder="Higgest Degree"
+        value={degree}
+        onChangeText={setDegree}
+      />
+      <Divider height={30} />
+      <InputBox
+        placeholder="Your password"
+        value={password}
+        onChangeText={setPassword}
+      />
+      <Divider height={30} />
 
+      <Divider height={50} />
+      <Button title="SUBMIT" onPress={register} />
     </SafeAreaView>
   );
 };
