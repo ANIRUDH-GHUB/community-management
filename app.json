@@ -4,10 +4,10 @@
     "slug": "community-management",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icons/login.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icons/login.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
