@@ -19,7 +19,6 @@ import {
   View,
   Image,
   TextInput,
-  Button,
   TouchableOpacity,
   SafeAreaView,
   Alert,
@@ -28,76 +27,56 @@ import Divider from "../components/Divider";
 import Header from "../components/Header";
 import InputBox from "../components/InputBox/InputBox";
 import { text } from "@fortawesome/fontawesome-svg-core";
+import Container from "../components/Container/Container";
+import common from "./../../constants/Styles";
+import Button from "../components/Button/Button";
+import { createUser } from "../services/UserService";
+import { colors, roles } from "../../constants/variables";
 
 const Visitor = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [mobileNum,setMobileNum] = useState<string>("");
+  const [cPassword, setCPassword] = useState<string>("");
+  const [mobileNum, setMobileNum] = useState<string>("");
 
   const register = () => {
-    const db = getFirestore(app);
-
-    createUserWithEmailAndPassword(auth, email, password).then((response) => {
-      console.log(response);
-      const uid = response.user.uid;
-      const data = {
-        name: name,
-        mobile_num: mobileNum,
-      };
-      const roleRef = collection(db, "roles");
-      const visRef = collection(db, "visitors");
-      const roleData = {
-        role: "visitor",
-      };
-    
-      const visDocRef = doc(visRef, uid);
-      setDoc(visDocRef, data)
-        .then(() => {
-          console.log("Document has been added successfully with custom ID:", uid);
-        })
-        .catch((error) => {
-          console.error("Error adding document: ", error);
-        });
-      
-        const roleDocRef = doc(roleRef, uid);
-        setDoc(roleDocRef, roleData)
-          .then(() => {
-            console.log("Document has been added successfully with custom ID:", uid);
-          })
-          .catch((error) => {
-            console.error("Error adding document: ", error);
-          });
-    });
+    createUser({ name, email, password, mobileNum }, roles.VISITOR);
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Welcome!</Text>
+    <Container style={common.container}>
       <Divider height={50} />
       <InputBox placeholder="Name" value={name} onChangeText={setName} />
       <Divider height={30} />
       <InputBox placeholder="Email" value={email} onChangeText={setEmail} />
       <Divider height={30} />
       <InputBox
-        placeholder="Your password"
+        placeholder="Password"
         value={password}
         onChangeText={setPassword}
+        type="password"
       />
       <Divider height={30} />
-      <InputBox placeholder="Mobile Number" value={mobileNum} onChangeText={setMobileNum} />
-      <Divider height={50} />
-      <Button title="SUBMIT" onPress={register} />
-    </SafeAreaView>
+      <InputBox
+        placeholder="Confirm Password"
+        value={cPassword}
+        onChangeText={setCPassword}
+        type="password"
+      />
+      <Divider height={30} />
+      <InputBox
+        placeholder="Mobile Number"
+        value={mobileNum}
+        onChangeText={setMobileNum}
+      />
+      <Divider height={30} />
+      <Button onPress={register} bgColor={colors.fountainblue}>
+        CREATE
+      </Button>
+      <Divider height={30} />
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    paddingTop: 60,
-  },
-});
 
 export default Visitor;

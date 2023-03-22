@@ -1,7 +1,6 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet } from "react-native/Libraries/StyleSheet/StyleSheet";
 import styles from "./styles";
 
 interface ContainerProps {
@@ -9,12 +8,26 @@ interface ContainerProps {
   children?: JSX.Element[] | JSX.Element;
 }
 
+const isMobile = () => {
+  return true;
+};
+
 const Container: React.FC<ContainerProps> = (props) => {
   const { style, children } = props;
-  return (
-    <SafeAreaView style={[style, styles.container]}>
-      <ScrollView>{children}</ScrollView>
+  const agent = "Android";
+
+  return isMobile() ? (
+    <SafeAreaView style={[styles.container]}>
+      <ScrollView contentContainerStyle={[style, { width: "100%" }]}>
+        {children}
+      </ScrollView>
     </SafeAreaView>
+  ) : (
+    <View style={[styles.container]}>
+      <ScrollView contentContainerStyle={[style, { width: "100%" }]}>
+        {children}
+      </ScrollView>
+    </View>
   );
 };
 

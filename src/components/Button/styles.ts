@@ -1,7 +1,12 @@
-import { StyleSheet } from "react-native/Libraries/StyleSheet/StyleSheet";
 import common from "../../../constants/Styles";
+import { StyleSheet } from "react-native";
+import { colors } from "../../../constants/variables";
 
-const styles = StyleSheet.create({
-    ...common,
-})
-export default styles;
+export default StyleSheet.create({
+  ...common,
+  buttonText: {
+    fontSize: 15,
+    textAlign: "center",
+    ...common.text
+  },
+});
