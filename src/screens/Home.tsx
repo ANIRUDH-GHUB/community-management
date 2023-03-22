@@ -1,5 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,Button } from 'react-native';
+import { StyleSheet } from "react-native";
+import { Image } from "react-native";
+import { colors } from "../../constants/variables";
+import Button from "../components/Button/Button";
+import Container from "../components/Container/Container";
+import HomeImage from "./../../assets/icons/home.png";
+import common from "./../../constants/Styles";
 
 interface HomeProps {
   navigation: any;
@@ -7,25 +12,29 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ navigation }) => {
   const handlePress = (screenName: string) => {
-    console.log(screenName)
+    console.log(screenName);
     navigation.navigate(screenName);
   };
 
-
   return (
-    <View style={styles.container}>
-      <Button title="LOGIN" onPress={() => handlePress('Login')} />
-      <Button title="REGISTER" onPress={() => handlePress('SignUp')} />
-    </View>
+    <Container style={common.container}>
+      <Image source={HomeImage} style={styles.image} resizeMode="contain" />
+      <Button onPress={() => handlePress("Login")} bgColor={colors.green}>
+        LOGIN
+      </Button>
+      <Button onPress={() => handlePress("SignUp")}>REGISTER</Button>
+    </Container>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  image: {
+    height: 400,
+    width: "70%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: 80,
+    borderRadius: 20,
   },
 });
 export default Home;
