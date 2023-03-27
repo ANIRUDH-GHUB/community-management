@@ -9,10 +9,9 @@ export default StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
     borderColor: colors.white,
-    backgroundColor: colors.white,
+    backgroundColor: colors.cardbg,
     borderRadius: 7,
     padding: 10,
-    background: colors.white,
   },
   buttonText: {
     fontSize: 20,
