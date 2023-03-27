@@ -2,12 +2,12 @@ import { Text } from "react-native";
 import Container from "../../components/Container/Container";
 import common from "../../../constants/Styles";
 
-const ResidentHome = () => {
+const Profile = () => {
   return (
     <Container style={common.container}>
-      <Text style={[common.text, common.md, common.center]}>Resident Home</Text>
+      <Text style={[common.text, common.md, common.center]}>Profile</Text>
     </Container>
   );
 };
 
-export default ResidentHome;
+export default Profile;

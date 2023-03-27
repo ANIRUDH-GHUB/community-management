@@ -12,3 +12,5 @@ export interface RESIDENT_USER {
 }
 
 export type ROLES = "resident" | "visitor" | "admin"
+
+export type TABS =  "Home" | "Settings" | "Profile";
