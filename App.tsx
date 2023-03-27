@@ -7,13 +7,14 @@ import "react-native-gesture-handler";
 import Home from "./src/screens/Home";
 import Login from "./src/screens/Login";
 import Resident from "./src/screens/Resident";
-import ResidentHome from "./src/screens/ResidentHome";
 import SignUpScreen from "./src/screens/Signup";
-import Visitor from "./src/screens/Visitor";
+import Visitor from "./src/screens/VisitorLanding";
 import BackButton from "./assets/icons/back-button.png";
 import Container from "./src/components/Container/Container";
 import common from "./constants/Styles";
 import { StatusBar } from "expo-status-bar";
+import ResidentLanding from "./src/screens/ResidentLanding";
+import VisitorLanding from "./src/screens/VisitorLanding";
 
 const Stack = createStackNavigator();
 
@@ -33,10 +34,11 @@ export default function App() {
     <Container style={common.container}>
       <StatusBar style="light" />
       <NavigationContainer theme={MyTheme}>
-        <Stack.Navigator initialRouteName="Home" screenOptions={MyStack}>
+        <Stack.Navigator initialRouteName="ResidentLanding" screenOptions={MyStack}>
           <Stack.Screen name="Home" component={Home} options={headerHidden} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen name="ResidentHome" component={ResidentHome} />
+          <Stack.Screen name="ResidentLanding" component={ResidentLanding} options={headerHidden}/>
+          <Stack.Screen name="VisitorLanding" component={VisitorLanding} options={headerHidden}/>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Visitor" component={Visitor} />
           <Stack.Screen name="Resident" component={Resident} />
