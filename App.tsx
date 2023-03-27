@@ -6,7 +6,7 @@ import { Text, Image } from "react-native";
 import "react-native-gesture-handler";
 import Home from "./src/screens/Home";
 import Login from "./src/screens/Login";
-import Resident from "./src/screens/Resident";
+import Resident from "./src/screens/ResidentRegister";
 import SignUpScreen from "./src/screens/Signup";
 import Visitor from "./src/screens/VisitorLanding";
 import BackButton from "./assets/icons/back-button.png";
@@ -15,6 +15,8 @@ import common from "./constants/Styles";
 import { StatusBar } from "expo-status-bar";
 import ResidentLanding from "./src/screens/ResidentLanding";
 import VisitorLanding from "./src/screens/VisitorLanding";
+import ResidentRegister from "./src/screens/ResidentRegister";
+import VisitorRegister from "./src/screens/VisitorRegister";
 
 const Stack = createStackNavigator();
 
@@ -40,8 +42,8 @@ export default function App() {
           <Stack.Screen name="ResidentLanding" component={ResidentLanding} options={headerHidden}/>
           <Stack.Screen name="VisitorLanding" component={VisitorLanding} options={headerHidden}/>
           <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Visitor" component={Visitor} />
-          <Stack.Screen name="Resident" component={Resident} />
+          <Stack.Screen name="Visitor" component={VisitorRegister} />
+          <Stack.Screen name="Resident" component={ResidentRegister} />
         </Stack.Navigator>
       </NavigationContainer>
     </Container>

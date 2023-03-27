@@ -7,10 +7,10 @@ import InputBox from "../components/InputBox/InputBox";
 import { createUser } from "../services/UserService";
 import Button from "../components/Button/Button";
 
-import common from "./../../constants/Styles";
+import common from "../../constants/Styles";
 import { colors, roles } from "../../constants/variables";
 
-const Resident = () => {
+const ResidentRegister = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -111,4 +111,4 @@ const Resident = () => {
   );
 };
 
-export default Resident;
+export default ResidentRegister;
