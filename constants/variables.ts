@@ -7,6 +7,7 @@ export const colors = {
   slategray: "#6A84A0",
   bordergray: "#181E25",
   fountainblue: "#35BDD0",
+  cardbg: "#CAD5E2",
 };
 
 export const roles = {

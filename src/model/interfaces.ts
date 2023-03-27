@@ -10,7 +10,14 @@ export interface RESIDENT_USER {
   hobby?: string;
   degree?: string;
 }
+export interface SERVICETYPE {
+  id: number;
+  service_name: string;
+  requested_date: string;
+  requested_by: number;
+  description: string;
+}
 
-export type ROLES = "resident" | "visitor" | "admin"
+export type ROLES = "resident" | "visitor" | "admin";
 
-export type TABS =  "Home" | "Settings" | "Profile" | "Services" | "Report";
+export type TABS = "Home" | "Settings" | "Profile" | "Services" | "Report";
