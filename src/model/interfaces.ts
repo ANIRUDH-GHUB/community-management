@@ -1,9 +1,9 @@
 export interface RESIDENT_USER {
   email: string;
   name: string;
+  mobileNum?: string;
   password: string;
   dob?: string;
-  mobileNum?: string;
   noOfResidents?: string;
   unit?: string;
   genre?: string;
