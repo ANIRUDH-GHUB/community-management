@@ -28,4 +28,24 @@ export default StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  header: {
+    backgroundColor: colors.background,
+    paddingBottom: 10,
+    textAlign: 'center',
+    color: colors.white,
+    fontFamily: "PTMono-Regular",
+    fontSize: 20,
+    borderBottomColor: colors.bordergray,
+    borderWidth: 1,
+    borderTopWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+  },
+  bottombar: {
+    borderTopColor: colors.bordergray,
+    borderWidth: 1,
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+  }
 });
