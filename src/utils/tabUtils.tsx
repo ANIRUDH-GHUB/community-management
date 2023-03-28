@@ -4,20 +4,36 @@ import {
 } from "@react-navigation/bottom-tabs";
 import { ParamListBase, RouteProp } from "@react-navigation/native";
 import React from "react";
-import { faHome, faGear, faUserCircle, faScrewdriverWrench, faTriangleExclamation, faInbox} from "@fortawesome/free-solid-svg-icons";
 import { TABS } from "../model/interfaces";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-// import { solid, regular, brands, icon } from '@fortawesome/fontawesome-svg-core/import.macro'
-
+import { Image } from "react-native";
+import { colors } from "../../constants/variables";
+import UsermaleIcon from "./../../assets/icons/user-male.png";
+import UsermaleSelectedIcon from "./../../assets/icons/user-male-selected.png";
+import PreferenceIcon from "./../../assets/icons/preference.png";
+import PreferenceSelectedIcon from "./../../assets/icons/preference-selected.png";
+import ReportIcon from "./../../assets/icons/report.png";
+import ReportSelectedIcon from "./../../assets/icons/report-selected.png";
+import InboxIcon from "./../../assets/icons/inbox.png";
+import InboxSelectedIcon from "./../../assets/icons/inbox-selected.png";
 export const Tab = createBottomTabNavigator();
 
 const TAB_ICONS = {
-  Home: faHome,
-  Settings: faGear,
-  Profile: faUserCircle,
-  Inbox: faInbox,
-  Services: faScrewdriverWrench,
-  Report: faTriangleExclamation
+  unselected: {
+    Home: PreferenceIcon,
+    Settings: PreferenceIcon,
+    Profile: UsermaleIcon,
+    Inbox: InboxIcon,
+    Services: PreferenceIcon,
+    Report: ReportIcon,
+  },
+  selected: {
+    Home: PreferenceIcon,
+    Settings: PreferenceIcon,
+    Profile: UsermaleSelectedIcon,
+    Inbox: InboxSelectedIcon,
+    Services: PreferenceSelectedIcon,
+    Report: ReportSelectedIcon,
+  },
 };
 
 export const screenOptions:
@@ -27,11 +43,25 @@ export const screenOptions:
       navigation: any;
     }) => BottomTabNavigationOptions) = ({ route }) => ({
   tabBarIcon: ({ focused, color, size }) => {
-    const iconName = TAB_ICONS?.[route.name as TABS] || faHome;
-    return <FontAwesomeIcon icon={iconName} color={color} size={20}></FontAwesomeIcon>;
+    let iconName = TAB_ICONS.unselected?.[route.name as TABS];
+    if(focused) iconName = TAB_ICONS.selected?.[route.name as TABS];
+    return (
+      <Image
+        source={iconName}
+        resizeMode="contain"
+        style={{
+          height: 30,
+          width: 30,
+        }}
+      />
+    );
   },
   tabBarActiveTintColor: "white",
   tabBarInactiveTintColor: "gray",
   headerShown: false,
   tabBarShowLabel: false,
+  tabBarStyle: {
+    backgroundColor: `${colors.elevatedBackground}A6`,
+    height: 60,
+  },
 });
