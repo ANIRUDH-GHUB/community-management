@@ -3,7 +3,7 @@ import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { Text } from "react-native";
 import { app, auth } from "../../firebase";
 import { RESIDENT_USER } from "../model/interfaces";
-
+import user from "../../assets/json/user.json";
 /**
  * This functionn creates user based on role
  * @param user USER DETAILS
@@ -59,3 +59,7 @@ export const pushDataToDoc = (
 };
 
 export const fetchDocData = () => {};
+
+export const fetchUserDetails =  () => {
+  return  user;
+};
