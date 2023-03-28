@@ -1,5 +1,17 @@
+export const themes = {
+  darkSilver:{
+    primaryDark: '#1D2021',
+    secondaryDark: '#282828',
+    neutralDark: '#32302F',
+    primaryLight: '504945',
+    secondaryLight: '#7C6F64',
+    neutralLight: '#f5f5f5',
+    
+  }
+}
 export const colors = {
   background: "#080a0c",
+  elevatedBackground: themes.darkSilver.primaryDark,
   white: "#ffffff",
   gray: "#202832",
   green: "#02B290",
