@@ -1,4 +1,4 @@
-export interface RESIDENT_USER {
+export interface USER {
   email: string;
   name: string;
   mobileNum?: string;

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { getAllServices } from "../../services/Services";
 import { SERVICETYPE } from "../../model/interfaces";
 import { FlatList } from "react-native-gesture-handler";
+import Header from "../../components/Header/Header";
 
 type ItemProps = { title: string };
 
@@ -28,12 +29,8 @@ const Services = () => {
   }, []);
 
   return (
-    <Container style={styles.m_20}>
-      <Text
-        style={common.header}
-      >
-        Services
-      </Text>
+    <Container>
+      <Header title="Services" />
       <Button>Request Services</Button>
       <FlatList
         data={services}

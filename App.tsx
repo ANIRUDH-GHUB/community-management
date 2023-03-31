@@ -34,7 +34,7 @@ export default function App() {
     <Container style={common.container}>
       <StatusBar style="light" />
       <NavigationContainer theme={MyTheme}>
-        <Stack.Navigator initialRouteName="ResidentLanding" screenOptions={MyStack}>
+        <Stack.Navigator initialRouteName="Home" screenOptions={MyStack}>
           <Stack.Screen name="Home" component={Home} options={headerHidden} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen

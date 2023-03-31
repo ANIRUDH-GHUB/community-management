@@ -2,37 +2,38 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { Text } from "react-native";
 import { app, auth } from "../../firebase";
-import { RESIDENT_USER } from "../model/interfaces";
+import { USER } from "../model/interfaces";
 import user from "../../assets/json/user.json";
 /**
  * This functionn creates user based on role
  * @param user USER DETAILS
  * @param role USER ROLE
- * 
+ *
  */
-export const createUser = (user: RESIDENT_USER, role: string) => {
-  createUserWithEmailAndPassword(auth, user?.email, user?.password).then(
-    (response) => {
+export const createUser = async (user: USER, role: string) => {
+  let success = false;
+  await createUserWithEmailAndPassword(auth, user?.email, user?.password)
+    .then((response) => {
       console.log(response);
+      success = true;
       const uid = response.user.uid;
-      const roleData = {
-        role: role,
-      };
-      pushDataToDoc("roles", uid, roleData);
-
       const data = {
-        name: user?.name,
-        dob: user?.dob,
-        mobile_num: user?.mobileNum,
-        no_of_residents: user?.noOfResidents,
-        unit: user?.unit,
-        genre: user?.genre,
-        hobby: user?.hobby,
-        degree: user?.degree,
+        name: user?.name || "",
+        dob: user?.dob || "",
+        mobile_num: user?.mobileNum || "",
+        no_of_residents: user?.noOfResidents || "",
+        unit: user?.unit || "",
+        genre: user?.genre || "",
+        hobby: user?.hobby || "",
+        degree: user?.degree || "",
+        role: role || "visitor",
       };
-      pushDataToDoc(role, uid, data);
-    }
-  );
+      pushDataToDoc("user", uid, data);
+    })
+    .catch((err) => {
+      success = false;
+    });
+  return success;
 };
 
 /**
@@ -60,6 +61,6 @@ export const pushDataToDoc = (
 
 export const fetchDocData = () => {};
 
-export const fetchUserDetails =  () => {
-  return  user;
+export const fetchUserDetails = () => {
+  return user;
 };

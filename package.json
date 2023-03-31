@@ -1,4 +1,5 @@
 {
+  "homepage": "http://anirudh-ghub.github.io/community-management",
   "name": "community-management",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
@@ -6,7 +7,9 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "deploy": "gh-pages -d web-build",
+    "predeploy": "expo export:web"
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
