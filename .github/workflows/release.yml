@@ -1,7 +1,6 @@
 name: "ci-cd pipeline"
 
-permissions:
-  actions: write
+permissions: write-all
 
 on:
   push:
