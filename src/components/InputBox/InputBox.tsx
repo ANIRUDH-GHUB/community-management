@@ -6,20 +6,23 @@ import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { colors } from "../../../constants/variables";
 
 interface InputProps {
-  placeholder: string;
+  placeholder?: string;
   onChangeText?: any;
   value: string;
   type?: any;
+  customStyle?: any;
+  editable?: boolean;
 }
 
 const InputBox: React.FC<InputProps> = (props) => {
-  const { placeholder, onChangeText, value, type } = props;
+  const { placeholder, onChangeText, value, type, customStyle, editable } = props;
   const [secure, setSecurity] = useState<boolean>(() => type === "password");
 
   return (
     <View style={styles.container}>
-      <View style={styles.inp_container}>
+      <View style={[styles.inp_container, customStyle]}>
         <TextInput
+          editable={editable}
           style={styles.input}
           onChangeText={onChangeText}
           value={value}
@@ -78,6 +81,10 @@ const styles = StyleSheet.create({
 });
 InputBox.defaultProps = {
   type: "text",
+  customStyle: {
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+  editable: true
 };
 
 export default InputBox;

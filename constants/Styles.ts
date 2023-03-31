@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { capitalise } from "../src/utils/commonUtil";
 import { colors } from "./variables";
 
 export default StyleSheet.create({
@@ -14,10 +15,18 @@ export default StyleSheet.create({
     textAlign: "center"
   },
   md:{
-    fontSize:20
+    fontSize:18,
+    marginTop: 5,
+    marginBottom: 5,
   },
   sm:{
-    fontSize: 15,
+    fontSize: 14,
+  },
+  light: {
+    color: colors.slategray,
+  },
+  capital: {
+    textTransform: "capitalize"
   },
   btn: {
     padding: 20,

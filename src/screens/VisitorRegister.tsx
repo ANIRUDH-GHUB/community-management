@@ -24,7 +24,6 @@ import {
   Alert,
 } from "react-native";
 import Divider from "../components/Divider";
-import Header from "../components/Header";
 import InputBox from "../components/InputBox/InputBox";
 import { text } from "@fortawesome/fontawesome-svg-core";
 import Container from "../components/Container/Container";
@@ -33,15 +32,21 @@ import Button from "../components/Button/Button";
 import { createUser } from "../services/UserService";
 import { colors, roles } from "../../constants/variables";
 
-const VisitorRegister = () => {
+const VisitorRegister = ({ navigation }: any) => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [cPassword, setCPassword] = useState<string>("");
   const [mobileNum, setMobileNum] = useState<string>("");
 
-  const register = () => {
-    createUser({ name, email, password, mobileNum }, roles.VISITOR);
+  const register = async () => {
+    const res = await createUser(
+      { name, email, password, mobileNum },
+      roles.VISITOR
+    );
+    if (res) {
+      navigation.navigate("VisitorLanding");
+    }
   };
 
   return (

@@ -5,12 +5,12 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-interface HeaderProps {
+interface HeaderGobackProps {
   title: string;
   goBack?: any;
 }
 
-const Header: React.FC<HeaderProps> = (props) => {
+const HeaderGoback: React.FC<HeaderGobackProps> = (props) => {
   const { title, goBack } = props;
   return (
     <View style={styles.header}>
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Header;
+export default HeaderGoback;

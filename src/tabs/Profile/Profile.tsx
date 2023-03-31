@@ -1,93 +1,173 @@
-import { Text,TouchableOpacity,TextInput } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  TextInput,
+  View,
+  Image,
+  StyleSheet,
+  ScrollView
+} from "react-native";
 import Container from "../../components/Container/Container";
-import common from "../../../constants/Styles";
 import React, { useState, useEffect } from "react";
 import { fetchUserDetails } from "../../services/UserService";
 import { RESIDENT_USER } from "../../model/interfaces";
 import styles from "./styles";
+import common from "./../../../constants/Styles";
+import Header from "../../components/Header/Header";
+import ProfileIcon from "./../../../assets/icons/profile-male.png";
+import HomeImage from "./../../../assets/icons/home2.png";
+import InputBox from "../../components/InputBox/InputBox";
+import { colors } from "../../../constants/variables";
 
 const Profile = () => {
-  const [userDetails, setUserDetails] = useState<RESIDENT_USER>(undefined);
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [cPassword, setCPassword] = useState<string>("");
+  const [mobileNum, setMobileNum] = useState<string>("");
+  const [dob, setDOB] = useState<string>("");
+  const [unit, setUnit] = useState<string>("");
+  const [noOfResidents, setNoOfResidents] = useState<string>("");
+  const [genre, setGenre] = useState<string>("");
+  const [hobby, setHobby] = useState<string>("");
+  const [degree, setDegree] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
   useEffect(() => {
-    setUserDetails(fetchUserDetails());
+    const res = fetchUserDetails();
+    setName(res.name);
+    setEmail(res.email);
+    setPassword(res.password);
+    setMobileNum(res.mobileNum);
+    setDOB(res.dob);
+    setNoOfResidents(res.noOfResidents);
+    setGenre(res.genre);
+    setHobby(res.hobby);
+    setDegree(res.degree);
+    setUnit(res.unit);
   }, []);
   const saveUserDetails = async () => {
     setEditMode(false);
-  }
-
-  const renderProfileDetails = () => {
-    return (
-      <Container style={styles.bgcolor}>
-        <Text >Name: {userDetails?.name}</Text>
-        <Text>Email: {userDetails?.email}</Text>
-        <Text>Phone: {userDetails?.mobileNum}</Text>
-        <Text>DOB: {userDetails?.dob}</Text>
-        <Text>password: {userDetails?.password}</Text>
-        <Text>unit: {userDetails?.unit}</Text>
-        <Text>genre: {userDetails?.genre}</Text>
-        <Text>hobby: {userDetails?.hobby}</Text>
-        <Text>degree: {userDetails?.degree}</Text>
-        <TouchableOpacity onPress={() => setEditMode(true)}>
-          <Text>Edit</Text>
-        </TouchableOpacity>
-      </Container>
-    );
   };
 
-  const renderEditForm = () => {
+  const ProfileDetails = () => {
     return (
-      <Container style={styles.bgcolor}>
-        <TextInput 
-          value={userDetails?.name}
-          onChangeText={(text) => setUserDetails({ ...userDetails, name: text })}
-        />
-        <TextInput
-          value={userDetails?.email}
-          onChangeText={(text) => setUserDetails({ ...userDetails, email: text })}
-        />
-        <TextInput
-          value={userDetails?.mobileNum}
-          onChangeText={(text) => setUserDetails({ ...userDetails, mobileNum: text })}
-        />
-        <TextInput
-          value={userDetails?.dob}
-          onChangeText={(text) => setUserDetails({ ...userDetails, dob: text })}
-        />
-        <TextInput
-          value={userDetails?.password}
-          onChangeText={(text) => setUserDetails({ ...userDetails, password: text })}
-        />
-        <TextInput
-          value={userDetails?.unit}
-          onChangeText={(text) => setUserDetails({ ...userDetails, unit: text })}
-        />
-        <TextInput
-          value={userDetails?.genre}
-          onChangeText={(text) => setUserDetails({ ...userDetails, genre: text })}
-        />
-        <TextInput
-          value={userDetails?.hobby}
-          onChangeText={(text) => setUserDetails({ ...userDetails, hobby: text })}
-        />
-        <TextInput
-          value={userDetails?.degree}
-          onChangeText={(text) => setUserDetails({ ...userDetails, degree: text })}
-        />
-        <TouchableOpacity onPress={() => saveUserDetails()}>
-          <Text>Save</Text>
-        </TouchableOpacity>
+      <Container style={common.container}>
+        <Header title="Profile" />
+       <ScrollView>
+       <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={ProfileIcon}
+            style={style.profileImage}
+            resizeMode="contain"
+          />
+          <Text style={[common.text, common.center, common.md, common.capital]}>
+            {name}
+          </Text>
+          <Text style={[common.text, common.center, common.sm, common.light]}>
+            {email}
+          </Text>
+        </View>
+        <View style={{marginTop: 30}}>
+          <InputBox
+            placeholder="DOB"
+            value={dob}
+            onChangeText={setDOB}
+            customStyle={{
+              marginTop: 6,
+              marginBottom: 6,
+              backgroundColor: colors.policeBlue,
+            }}
+            editable={false}
+          />
+          <InputBox
+            placeholder="DOB"
+            value={mobileNum}
+            onChangeText={setMobileNum}
+            customStyle={{
+              marginTop: 6,
+              marginBottom: 6,
+              backgroundColor: colors.policeBlue,
+            }}
+            editable={false}
+          />
+          <InputBox
+            placeholder="DOB"
+            value={degree}
+            onChangeText={setGenre}
+            customStyle={{
+              marginTop: 6,
+              marginBottom: 6,
+              backgroundColor: colors.policeBlue,
+            }}
+            editable={false}
+          />
+          <InputBox
+            placeholder="DOB"
+            value={unit}
+            onChangeText={setUnit}
+            customStyle={{
+              marginTop: 6,
+              marginBottom: 6,
+              backgroundColor: colors.policeBlue,
+            }}
+            editable={false}
+          />
+          <InputBox
+            placeholder="DOB"
+            value={noOfResidents}
+            onChangeText={setNoOfResidents}
+            customStyle={{
+              marginTop: 6,
+              marginBottom: 6,
+              backgroundColor: colors.policeBlue,
+            }}
+            editable={false}
+          />
+          <InputBox
+            placeholder="DOB"
+            value={noOfResidents}
+            onChangeText={setNoOfResidents}
+            customStyle={{
+              marginTop: 6,
+              marginBottom: 6,
+              backgroundColor: colors.policeBlue,
+            }}
+            editable={false}
+          />
+          <InputBox
+            placeholder="DOB"
+            value={noOfResidents}
+            onChangeText={setNoOfResidents}
+            customStyle={{
+              marginTop: 6,
+              marginBottom: 6,
+              backgroundColor: colors.policeBlue,
+            }}
+            editable={false}
+          />
+        </View>
+       </ScrollView>
       </Container>
     );
   };
 
   return (
-    <Container style={styles.bgcolor}>
-      {editMode ? renderEditForm() : renderProfileDetails()}
-    </Container>
+      <ProfileDetails />
   );
-
-
 };
+
+const style = StyleSheet.create({
+  profileImage: {
+    height: 60,
+    width: 60,
+    marginTop: 15,
+    marginBottom: 15,
+  },
+});
 
 export default Profile;

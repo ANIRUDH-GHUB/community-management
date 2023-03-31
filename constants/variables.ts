@@ -20,6 +20,7 @@ export const colors = {
   bordergray: "#181E25",
   fountainblue: "#35BDD0",
   cardbg: "#CAD5E2",
+  policeBlue: '#395B64'
 };
 
 export const roles = {

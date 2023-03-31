@@ -10,7 +10,7 @@ import Button from "../components/Button/Button";
 import common from "../../constants/Styles";
 import { colors, roles } from "../../constants/variables";
 
-const ResidentRegister = () => {
+const ResidentRegister = ({ navigation }: any) => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -22,9 +22,9 @@ const ResidentRegister = () => {
   const [genre, setGenre] = useState<string>("");
   const [hobby, setHobby] = useState<string>("");
   const [degree, setDegree] = useState<string>("");
-
-  const register = () => {
-    createUser(
+  const role = 'resident';
+  const register = async () => {
+    const res = await createUser(
       {
         name,
         dob,
@@ -39,6 +39,9 @@ const ResidentRegister = () => {
       },
       roles.RESIDENT
     );
+    if(res){
+      navigation.navigate('ResidentLanding');
+    }
   };
 
   return (

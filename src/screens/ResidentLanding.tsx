@@ -13,11 +13,11 @@ const ResidentLanding = () => {
   return (
     <Container style={common.container}>
       <BlurView intensity={90} tint="dark" style={{flex: 1, justifyContent:"flex-end"}}>
-      <Tab.Navigator screenOptions={screenOptions}>
+      <Tab.Navigator screenOptions={screenOptions} initialRouteName="Profile">
         <Tab.Screen name="Services" component={Services}/>
         <Tab.Screen name="Inbox" component={Inbox}/>
         <Tab.Screen name="Report" component={Report}/>
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen name="Profile" component={Profile}/>
       </Tab.Navigator>
       </BlurView>
     </Container>
