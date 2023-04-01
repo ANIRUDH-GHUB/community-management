@@ -2,7 +2,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { Text } from "react-native";
 import { app, auth } from "../../firebase";
-import { RESIDENT_USER } from "../model/interfaces";
 import servicejson from "../../assets/json/residentservices.json";
 import { async } from "@firebase/util";
 

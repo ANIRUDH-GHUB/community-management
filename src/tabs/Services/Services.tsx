@@ -1,10 +1,14 @@
-import { Text, View } from "react-native";
+import { Text, View,ScrollView,Modal,Alert, Pressable} from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import Container from "../../components/Container/Container";
 import common from "../../../constants/Styles";
 import Card from "../../components/Card/Card";
 import styles from "./styles";
+import { colors } from "../../../constants/variables";
 import Button from "../../components/Button/Button";
 import { useEffect, useState } from "react";
+import { BlurView } from "expo-blur";
+import DropdownComponent from "../../components/Dropdown/Dropdown";
 // import { getAllServices } from "../../services/Services";
 import res from './../../../assets/json/residentservices.json'
 import { SERVICETYPE } from "../../model/interfaces";
@@ -13,6 +17,12 @@ import Header from "../../components/Header/Header";
 
 type ItemProps = { title: string };
 
+const servicesList = [
+  { label: 'Car Wash', value: 'car_wash' },
+  { label: 'Repair TV', value: 'tv_repair' },
+  { label: 'A/C Repair', value: 'ac_repair' },
+  { label: 'Plumber', value: 'plumber' },
+];
 const Item = ({ title }: ItemProps) => (
   <View>
     <Text>{title}</Text>
@@ -21,6 +31,7 @@ const Item = ({ title }: ItemProps) => (
 
 const Services = () => {
   const [services, setServices] = useState<SERVICETYPE[]>([]);
+  const [showForm, setShowForm] = useState<boolean>(false);
 
   useEffect(() => {
     const response = res;
@@ -32,7 +43,8 @@ const Services = () => {
   return (
     <Container>
       <Header title="Services" />
-      <Button>Request Services</Button>
+      <Button onPress={() => setShowForm(true)} >Request Services</Button>
+      <RequestServices showForm={showForm} setShowForm={setShowForm} />
       <FlatList
         data={services}
         renderItem={(item) => {
@@ -48,5 +60,63 @@ const Services = () => {
     </Container>
   );
 };
+
+const RequestServices = ({ showForm, setShowForm }: any) => {
+  const [date, setDate] = useState(new Date());
+  const [showDate, setShowDate] = useState(false);
+  const [selectedService, setSelectedService] = useState<any>();
+
+  const onChange = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+    setShowDate(false);
+  };
+
+  return (
+    <Modal
+      animationType={"slide"}
+      transparent={showForm}
+      visible={showForm}
+      presentationStyle="formSheet"
+      onRequestClose={() => {
+        Alert.alert("Modal has now been closed.");
+      }}
+    >
+      <BlurView
+        intensity={90}
+        tint="dark"
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: colors.gray,
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: colors.white,
+            width: "80%",
+          }}
+        >
+          <DropdownComponent data={servicesList} value={selectedService} setValue={setSelectedService}/>
+          <Pressable onPress={()=>setShowDate(true)}><Text>{date.toDateString()}</Text></Pressable>
+          {showDate && <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={"date"}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />}
+          <Button>Request</Button>
+          <Button onPress={() => setShowForm(false)}>Close</Button>
+        </View>
+      </BlurView>
+    </Modal>
+  );
+};
+
 
 export default Services;
