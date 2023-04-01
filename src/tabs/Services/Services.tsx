@@ -18,14 +18,10 @@ import Header from "../../components/Header/Header";
 type ItemProps = { title: string };
 
 const servicesList = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
+  { label: 'Car Wash', value: 'car_wash' },
+  { label: 'Repair TV', value: 'tv_repair' },
+  { label: 'A/C Repair', value: 'ac_repair' },
+  { label: 'Plumber', value: 'plumber' },
 ];
 const Item = ({ title }: ItemProps) => (
   <View>
@@ -68,6 +64,7 @@ const Services = () => {
 const RequestServices = ({ showForm, setShowForm }: any) => {
   const [date, setDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
+  const [selectedService, setSelectedService] = useState<any>();
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
@@ -103,7 +100,7 @@ const RequestServices = ({ showForm, setShowForm }: any) => {
             width: "80%",
           }}
         >
-          <DropdownComponent data={servicesList}/>
+          <DropdownComponent data={servicesList} value={selectedService} setValue={setSelectedService}/>
           <Pressable onPress={()=>setShowDate(true)}><Text>{date.toDateString()}</Text></Pressable>
           {showDate && <DateTimePicker
             testID="dateTimePicker"

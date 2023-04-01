@@ -10,7 +10,7 @@ interface DropdownInterface {
 }
 
 const DropdownComponent: React.FC<DropdownInterface> = (props: any) => {
-  const [data, value, setValue] = props;
+  const {data, value, setValue} = props;
 
   return (
     <Dropdown
