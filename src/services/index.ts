@@ -4,6 +4,7 @@ import {
   getFirestore,
   setDoc,
   getDoc,
+  getDocs,
 } from "firebase/firestore";
 import { app } from "../../firebase";
 import { COLLLECTIONS } from "../model/interfaces";
@@ -55,6 +56,26 @@ export const fetchDocData = async (
         console.log("No such document!");
         res.err = "Document not found";
       }
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+      res.err = error;
+    });
+  return res;
+};
+
+export const fetchCollectionData = async (collectionName: COLLLECTIONS) => {
+  const db = getFirestore(app);
+  const ref = collection(db, collectionName);
+
+  const res = { data: [] as any[], success: false, err: "" as any };
+  await getDocs(ref)
+    .then((docs) => {
+      docs?.forEach((doc) => {
+        const data = doc.data();
+        data.uid = doc.id;
+        res.data.push(data);
+      });
     })
     .catch((error) => {
       console.log("Error getting document:", error);
