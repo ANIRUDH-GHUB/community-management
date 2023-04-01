@@ -30,9 +30,9 @@ export const roles = {
 };
 
 export const rolePath = {
-  resident: "ResidentHome",
-  visitor: "VisitorHome",
-  admin: "AdminHome",
+  resident: "ResidentLanding",
+  visitor: "VisitorLanding",
+  admin: "AdminLanding",
 };
 
 export const errpr_messages: { [key: string]: string } = {

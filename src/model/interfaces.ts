@@ -18,6 +18,8 @@ export interface SERVICETYPE {
   description: string;
 }
 
+export type COLLLECTIONS = 'user' | 'services' | 'bookings';
+
 export type ROLES = "resident" | "visitor" | "admin";
 
 export type TABS = "Home" | "Settings" | "Profile" | "Services" | "Report";

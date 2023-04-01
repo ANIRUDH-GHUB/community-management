@@ -9,24 +9,27 @@ export default StyleSheet.create({
   },
   text: {
     color: colors.white,
-    fontFamily: "PTMono-Regular"
+    fontFamily: "PTMono-Regular",
   },
   center: {
-    textAlign: "center"
+    textAlign: "center",
   },
-  md:{
-    fontSize:18,
+  md: {
+    fontSize: 18,
     marginTop: 5,
     marginBottom: 5,
   },
-  sm:{
+  sm: {
     fontSize: 14,
   },
   light: {
     color: colors.slategray,
   },
+  textBold: {
+    fontFamily: "PTMono-Regular",
+  },
   capital: {
-    textTransform: "capitalize"
+    textTransform: "capitalize",
   },
   btn: {
     padding: 20,
@@ -40,7 +43,7 @@ export default StyleSheet.create({
   header: {
     backgroundColor: colors.background,
     paddingBottom: 10,
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.white,
     fontFamily: "PTMono-Regular",
     fontSize: 20,
@@ -56,5 +59,5 @@ export default StyleSheet.create({
     borderBottomWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-  }
+  },
 });

@@ -20,8 +20,8 @@ const Button: React.FC<ButtonProps> = (props) => {
         {
           backgroundColor: pressed ? `${bgColor}A6` : bgColor,
         },
-        style,
         styles.btn,
+        style,
       ]}
       onPress={onPress}
     >

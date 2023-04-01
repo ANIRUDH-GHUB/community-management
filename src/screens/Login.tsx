@@ -5,7 +5,7 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { getFirestore, collection, getDoc, doc } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, Image, StyleSheet, ActivityIndicator } from "react-native";
 import Divider from "../components/Divider";
 import InputBox from "../components/InputBox/InputBox";
@@ -15,6 +15,8 @@ import GoogleIcon from "./../../assets/icons/google.png";
 import Button from "../components/Button/Button";
 import { colors, errpr_messages, rolePath } from "../../constants/variables";
 import { ROLES } from "../model/interfaces";
+import { loginUser } from "../services/UserService";
+import { getStoreData } from "../services/StorageService";
 
 interface LoginProps {
   navigation: any;
@@ -25,35 +27,13 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const login = () => {
+  
+  const login = async () => {
     setLoading(true);
-    const db = getFirestore(app);
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        console.log(userCredential);
-        const user = userCredential.user;
-        const roleRef = collection(db, "roles");
-        const resDocRef = doc(roleRef, user.uid);
-        getDoc(resDocRef)
-          .then((doc) => {
-            if (doc.exists()) {
-              console.log("Document data:", doc.data());
-              navigation.navigate(rolePath[doc.data().role as ROLES]);
-            } else {
-              console.log("No such document!");
-            }
-          })
-          .catch((error) => {
-            console.log("Error getting document:", error);
-          });
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.code);
-        setError(errpr_messages?.[err.code] || "Default Error");
-        setLoading(false);
-      });
+    const res = await loginUser({ email, password });
+    setLoading(false);
+    if (res?.success) navigation.navigate(rolePath[res.data.role as ROLES]);
+    else setError(errpr_messages[res?.err?.code] || 'Error while Login');
   };
 
   const loginWithGoogle = () => {
@@ -64,6 +44,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken;
         const user = result.user;
+        console.log(token, user);
       })
       .catch((error) => {
         const errorCode = error.code;
