@@ -8,5 +8,17 @@
     "unit": "1",
     "genre": "comdey",
     "hobby": "singing",
-    "degree": "btech"
+    "degree": "btech",
+    "requests": [
+        {
+            "requested_date": "22/02/2023",
+            "no_of_days": 3,
+            "approved": true
+        },
+        {
+            "requested_date": "22/02/2023",
+            "no_of_days": 3,
+            "approved": true
+        }
+    ]
 }

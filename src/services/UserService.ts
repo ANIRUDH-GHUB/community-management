@@ -2,7 +2,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { fetchDocData, pushDataToDoc } from ".";
+import { fetchCollectionData, fetchDocData, pushDataToDoc } from ".";
 import user from "../../assets/json/user.json";
 import { auth } from "../../firebase";
 import { USER } from "../model/interfaces";
@@ -64,6 +64,14 @@ export const loginUser = async (user: any) => {
     });
   return res;
 };
+
+export const isResident = (user: any) => user.role === 'resident'
+
+export const getAllResidents = async () => {
+  console.log('inside')
+  const res = await fetchCollectionData('user');
+  return res.data?.filter(isResident);
+}
 
 export const logoutUser = async () => {
   removeStoreData("user_creds");
