@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 
@@ -9,7 +9,8 @@ interface ContainerProps {
 }
 
 const isMobile = () => {
-  return false;
+  console.log(Platform.OS)
+  return Platform.OS !== "web";
 };
 
 const Container: React.FC<ContainerProps> = (props) => {

@@ -3,14 +3,11 @@ import { colors } from "../../../constants/variables";
 
 export default StyleSheet.create({
   card: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 10,
-    marginBottom: 10,
-    borderWidth: 1,
+    borderWidth: 0.5,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
     borderColor: colors.white,
-    backgroundColor: colors.cardbg,
-    borderRadius: 7,
+    backgroundColor: colors.elevatedBackground,
     padding: 10,
   },
   buttonText: {

@@ -15,6 +15,8 @@ import ReportIcon from "./../../assets/icons/report.png";
 import ReportSelectedIcon from "./../../assets/icons/report-selected.png";
 import InboxIcon from "./../../assets/icons/inbox.png";
 import InboxSelectedIcon from "./../../assets/icons/inbox-selected.png";
+import ScheduleIcon from "./../../assets/icons/schedule.png";
+import ScheduleSelectedIcon from "./../../assets/icons/schedule-selected.png";
 export const Tab = createBottomTabNavigator();
 
 const TAB_ICONS = {
@@ -25,6 +27,7 @@ const TAB_ICONS = {
     Inbox: InboxIcon,
     Services: PreferenceIcon,
     Report: ReportIcon,
+    Schedule: ScheduleIcon,
   },
   selected: {
     Home: PreferenceIcon,
@@ -33,6 +36,7 @@ const TAB_ICONS = {
     Inbox: InboxSelectedIcon,
     Services: PreferenceSelectedIcon,
     Report: ReportSelectedIcon,
+    Schedule: ScheduleSelectedIcon,
   },
 };
 

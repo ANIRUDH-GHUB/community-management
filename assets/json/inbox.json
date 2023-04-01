@@ -1,0 +1,56 @@
+[
+    {
+        "id": 123,
+        "visitor_name": "Anirudh",
+        "visitor_email": "anirudh@gmail.com",
+        "requested_date": "22/02/2023",
+        "vehicle_number": "TS06AB1234",
+        "no_of_days": 3,
+        "approved": true
+    },
+    {
+        "id": 123,
+        "visitor_name": "Bhargav",
+        "visitor_email": "anirudh@gmail.com",
+        "requested_date": "22/02/2023",
+        "vehicle_number": "TS06AB1234",
+        "no_of_days": 10,
+          "approved": false
+    },
+    {
+        "id": 123,
+        "visitor_name": "Dhvijesh",
+        "visitor_email": "anirudh@gmail.com",
+        "requested_date": "22/02/2023",
+        "vehicle_number": "TS06AB1234",
+        "no_of_days": 22,
+          "approved": true
+    },
+    {
+        "id": 123,
+        "visitor_name": "Chaitu",
+        "visitor_email": "anirudh@gmail.com",
+        "requested_date": "22/02/2023",
+        "vehicle_number": "TS06AB1234",
+        "no_of_days": 1,
+          "approved": true
+    },
+    {
+        "id": 123,
+        "visitor_name": "Vivek",
+        "visitor_email": "anirudh@gmail.com",
+        "requested_date": "22/02/2023",
+        "vehicle_number": "TS06AB1234",
+        "no_of_days": 4,
+          "approved": false
+    },
+    {
+        "id": 123,
+        "visitor_name": "Anvesh",
+        "visitor_email": "anirudh@gmail.com",
+        "requested_date": "22/02/2023",
+        "vehicle_number": "TS06AB1234",
+        "no_of_days": 5,
+          "approved": false
+    }
+]

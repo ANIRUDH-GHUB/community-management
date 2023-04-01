@@ -5,7 +5,8 @@ import Card from "../../components/Card/Card";
 import styles from "./styles";
 import Button from "../../components/Button/Button";
 import { useEffect, useState } from "react";
-import { getAllServices } from "../../services/Services";
+// import { getAllServices } from "../../services/Services";
+import res from './../../../assets/json/residentservices.json'
 import { SERVICETYPE } from "../../model/interfaces";
 import { FlatList } from "react-native-gesture-handler";
 import Header from "../../components/Header/Header";
@@ -22,7 +23,7 @@ const Services = () => {
   const [services, setServices] = useState<SERVICETYPE[]>([]);
 
   useEffect(() => {
-    const response = getAllServices();
+    const response = res;
     if (response) {
       setServices(response);
     }

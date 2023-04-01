@@ -1,8 +1,11 @@
+import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Image } from "react-native";
-import { colors } from "../../constants/variables";
+import { colors, rolePath } from "../../constants/variables";
 import Button from "../components/Button/Button";
 import Container from "../components/Container/Container";
+import { ROLES } from "../model/interfaces";
+import { getStoreData } from "../services/StorageService";
 import HomeImage from "./../../assets/icons/home.png";
 import common from "./../../constants/Styles";
 
@@ -11,6 +14,13 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ navigation }) => {
+  useEffect(() => {
+    const checkLoggedinStatus = async () => {
+      const creds = await getStoreData("user_creds");
+      navigation.navigate(rolePath?.[creds?.role as ROLES] || "Home");
+    };
+    checkLoggedinStatus();
+  });
   const handlePress = (screenName: string) => {
     console.log(screenName);
     navigation.navigate(screenName);

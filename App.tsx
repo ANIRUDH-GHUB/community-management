@@ -14,7 +14,14 @@ import ResidentLanding from "./src/screens/ResidentLanding";
 import VisitorLanding from "./src/screens/VisitorLanding";
 import ResidentRegister from "./src/screens/ResidentRegister";
 import VisitorRegister from "./src/screens/VisitorRegister";
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
+import { Provider } from "react-redux";
+import { store } from "./src/state/store";
+import * as Keychain from "react-native-keychain";
+import { useEffect, useState } from "react";
+import { getStoreData } from "./src/services/StorageService";
+import { rolePath } from "./constants/variables";
+import { ROLES } from "./src/model/interfaces";
 
 const Stack = createStackNavigator();
 
@@ -25,34 +32,40 @@ const headerHidden: StackNavigationOptions = {
 export default function App() {
   const [fontsLoaded] = useFonts({
     "PTMono-Regular": require("./assets/fonts/PTMono-Regular.ttf"),
+    "PTMono-Bold": require("./assets/fonts/PTMono-Bold.ttf"),
   });
   if (!fontsLoaded) {
     return <Text>Loading...</Text>;
   }
 
   return (
-    <Container style={common.container}>
-      <StatusBar style="light" />
-      <NavigationContainer theme={MyTheme}>
-        <Stack.Navigator initialRouteName="Home" screenOptions={MyStack}>
-          <Stack.Screen name="Home" component={Home} options={headerHidden} />
-          <Stack.Screen name="SignUp" component={SignUpScreen} />
-          <Stack.Screen
-            name="ResidentLanding"
-            component={ResidentLanding}
-            options={headerHidden}
-          />
-          <Stack.Screen
-            name="VisitorLanding"
-            component={VisitorLanding}
-            options={headerHidden}
-          />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Visitor" component={VisitorRegister} />
-          <Stack.Screen name="Resident" component={ResidentRegister} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Container>
+    <Provider store={store}>
+      <Container style={common.container}>
+        <StatusBar style="light" />
+        <NavigationContainer theme={MyTheme}>
+          <Stack.Navigator
+            initialRouteName={"Home"}
+            screenOptions={MyStack}
+          >
+            <Stack.Screen name="Home" component={Home} options={headerHidden} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
+            <Stack.Screen
+              name="ResidentLanding"
+              component={ResidentLanding}
+              options={headerHidden}
+            />
+            <Stack.Screen
+              name="VisitorLanding"
+              component={VisitorLanding}
+              options={headerHidden}
+            />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Visitor" component={VisitorRegister} />
+            <Stack.Screen name="Resident" component={ResidentRegister} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Container>
+    </Provider>
   );
 }
 
