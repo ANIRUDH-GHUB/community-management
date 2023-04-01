@@ -1,6 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { BlurView } from "expo-blur";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Alert,
   FlatList,
@@ -19,7 +19,8 @@ import Card from "../../components/Card/Card";
 import Container from "../../components/Container/Container";
 import DropdownComponent from "../../components/Dropdown/Dropdown";
 import Header from "../../components/Header/Header";
-import InputBox from "../../components/InputBox/InputBox";
+import { USER } from "../../model/interfaces";
+import { getAllResidents } from "../../services/UserService";
 import EditIcon from "./../../../assets/icons/edit.png";
 import inboxJSON from "./../../../assets/json/inbox.json";
 
@@ -28,19 +29,19 @@ const Schedule = () => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>("upcoming");
 
-  const filteredList = () => {
-    let res;
-    switch (selected) {
-      case "upcoming":
-        res = inbox?.filter((item) => item.approved == false);
-        break;
-      case "past":
-        res = inbox?.filter((item) => item.approved == true);
-        break;
-    }
-    console.log(res);
-    return res;
-  };
+  // const filteredList = () => {
+  //   let res;
+  //   switch (selected) {
+  //     case "upcoming":
+  //       res = inbox?.filter((item) => item.approved == false);
+  //       break;
+  //     case "past":
+  //       res = inbox?.filter((item) => item.approved == true);
+  //       break;
+  //   }
+  //   console.log(res);
+  //   return res;
+  // };
 
   return (
     <Container style={common.container}>
@@ -72,7 +73,7 @@ const Schedule = () => {
         ))}
       </View>
       <ScrollView>
-        <ScheduleList list={filteredList()} options={true} />
+        {/* <ScheduleList list={filteredList()} options={true} /> */}
       </ScrollView>
       <ScheduleVisit showForm={showForm} setShowForm={setShowForm} />
     </Container>
@@ -136,12 +137,33 @@ const ScheduleList = ({ list, options }: any) => {
 const ScheduleVisit = ({ showForm, setShowForm }: any) => {
   const [date, setDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
+  const [residents, setResidents] = useState<any>([]);
+  const [selectedRes, setSelectedRes] = useState<any>();
+
+  const fetchResidents = async () => {
+    const res = await getAllResidents();
+    setResidents(res);
+  };
+  useEffect(() => {
+    console.log("useEffect");
+    fetchResidents();
+  }, []);
+
+  useEffect(()=>{
+    console.log(selectedRes)
+  }, [selectedRes])
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);
     setShowDate(false);
   };
+
+  const dropDownData = () =>
+    residents?.map((resident: USER) => ({
+      label: resident?.name,
+      value: resident,
+    }));
 
   return (
     <Modal
@@ -171,16 +193,24 @@ const ScheduleVisit = ({ showForm, setShowForm }: any) => {
             width: "80%",
           }}
         >
-          <DropdownComponent />
-          <Pressable onPress={()=>setShowDate(true)}><Text>{date.toDateString()}</Text></Pressable>
-          {showDate && <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={"date"}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />}
+          <DropdownComponent
+            data={dropDownData()}
+            value={selectedRes}
+            setValue={setSelectedRes}
+          />
+          <Pressable onPress={() => setShowDate(true)}>
+            <Text>{date.toDateString()}</Text>
+          </Pressable>
+          {showDate && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={"date"}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
           <Button onPress={() => setShowForm(false)}>Close</Button>
         </View>
       </BlurView>

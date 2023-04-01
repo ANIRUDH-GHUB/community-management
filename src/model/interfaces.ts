@@ -9,6 +9,8 @@ export interface USER {
   genre?: string;
   hobby?: string;
   degree?: string;
+  uid?: string;
+  role?: ROLES
 }
 export interface SERVICETYPE {
   id: number;
