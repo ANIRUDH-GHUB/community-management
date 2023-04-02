@@ -1,22 +1,20 @@
-import { auth, app, provider } from "../../firebase";
 import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
+  GoogleAuthProvider, signInWithPopup
 } from "firebase/auth";
-import { getFirestore, collection, getDoc, doc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { Text, Image, StyleSheet, ActivityIndicator } from "react-native";
+import React, { useState } from "react";
+import { Image, StyleSheet, Text } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { colors, errpr_messages, rolePath } from "../../constants/variables";
+import { auth, provider } from "../../firebase";
+import Button from "../components/Button/Button";
+import Container from "../components/Container/Container";
 import Divider from "../components/Divider";
 import InputBox from "../components/InputBox/InputBox";
-import Container from "../components/Container/Container";
-import common from "./../../constants/Styles";
-import GoogleIcon from "./../../assets/icons/google.png";
-import Button from "../components/Button/Button";
-import { colors, errpr_messages, rolePath } from "../../constants/variables";
 import { ROLES } from "../model/interfaces";
 import { loginUser } from "../services/UserService";
-import { getStoreData } from "../services/StorageService";
+import GoogleIcon from "./../../assets/icons/google.png";
+import common from "./../../constants/Styles";
+import {setUser} from '../state/slice/userSlice';
 
 interface LoginProps {
   navigation: any;
@@ -27,24 +25,26 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  
+  const dispatch = useDispatch();
+
   const login = async () => {
     setLoading(true);
     const res = await loginUser({ email, password });
     setLoading(false);
-    if (res?.success) navigation.navigate(rolePath[res.data.role as ROLES]);
-    else setError(errpr_messages[res?.err?.code] || 'Error while Login');
+    if (res?.success) {
+      dispatch(setUser(res?.data))
+      navigation.navigate(rolePath[res.data.role as ROLES]);
+    } else {
+      setError(errpr_messages[res?.err?.code] || "Error while Login");
+    }
   };
 
   const loginWithGoogle = () => {
-    console.log("inside");
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log("inside2");
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken;
         const user = result.user;
-        console.log(token, user);
       })
       .catch((error) => {
         const errorCode = error.code;

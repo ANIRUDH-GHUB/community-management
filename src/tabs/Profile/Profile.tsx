@@ -21,14 +21,17 @@ const Profile = ({ navigation }: any) => {
   const [editMode, setEditMode] = useState(false);
   const [confirm, setConfirm] = useState(false);
   useEffect(() => {
-    const res = fetchUserDetails();
-    setName(res.name);
-    setEmail(res.email);
-    setMobileNum(res.mobileNum);
-    setDOB(res.dob);
-    setNoOfResidents(res.noOfResidents);
-    setDegree(res.degree);
-    setUnit(res.unit);
+    (async () => {
+      const res = await fetchUserDetails();
+      console.log(res)
+      setName(res.name);
+      setEmail(res.email);
+      setMobileNum(res.mobile_num);
+      setDOB(res.dob);
+      setNoOfResidents(res.no_of_residents);
+      setDegree(res.degree);
+      setUnit(res.unit);
+    })();
   }, []);
 
   const logoutHandler = () => {
@@ -64,7 +67,7 @@ const Profile = ({ navigation }: any) => {
           <View style={{ marginTop: 30 }}>
             <InputBox
               placeholder="DOB"
-              value={dob}
+              value={"DOB: "+dob}
               onChangeText={setDOB}
               customStyle={{
                 marginTop: 6,
@@ -74,8 +77,8 @@ const Profile = ({ navigation }: any) => {
               editable={false}
             />
             <InputBox
-              placeholder="DOB"
-              value={mobileNum}
+              placeholder="Phone"
+              value={"Phone: "+mobileNum}
               onChangeText={setMobileNum}
               customStyle={{
                 marginTop: 6,
@@ -86,8 +89,8 @@ const Profile = ({ navigation }: any) => {
             />
 
             <InputBox
-              placeholder="DOB"
-              value={unit}
+              placeholder="Unit"
+              value={"Unit: "+unit}
               onChangeText={setUnit}
               customStyle={{
                 marginTop: 6,
@@ -97,30 +100,8 @@ const Profile = ({ navigation }: any) => {
               editable={false}
             />
             <InputBox
-              placeholder="DOB"
-              value={noOfResidents}
-              onChangeText={setNoOfResidents}
-              customStyle={{
-                marginTop: 6,
-                marginBottom: 6,
-                backgroundColor: colors.policeBlue,
-              }}
-              editable={false}
-            />
-            <InputBox
-              placeholder="DOB"
-              value={noOfResidents}
-              onChangeText={setNoOfResidents}
-              customStyle={{
-                marginTop: 6,
-                marginBottom: 6,
-                backgroundColor: colors.policeBlue,
-              }}
-              editable={false}
-            />
-            <InputBox
-              placeholder="DOB"
-              value={noOfResidents}
+              placeholder="Number of Residents"
+              value={"Residents: "+noOfResidents}
               onChangeText={setNoOfResidents}
               customStyle={{
                 marginTop: 6,

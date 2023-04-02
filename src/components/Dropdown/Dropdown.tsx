@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -6,11 +6,12 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 interface DropdownInterface {
   value: any;
   setValue: any;
+  placeHolder?: string;
   data: { label: string; value: any }[];
 }
 
-const DropdownComponent: React.FC<DropdownInterface> = (props: any) => {
-  const {data, value, setValue} = props;
+const DropdownComponent: React.FC<DropdownInterface> = (props) => {
+  const { data, value, setValue, placeHolder } = props;
 
   return (
     <Dropdown
@@ -31,11 +32,15 @@ const DropdownComponent: React.FC<DropdownInterface> = (props: any) => {
         setValue(item.value);
       }}
       renderLeftIcon={() => (
-        <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+        <AntDesign style={styles.icon} color="black" name="user" size={20} />
       )}
     />
   );
 };
+
+DropdownComponent.defaultProps={
+  placeHolder: 'Select item'
+}
 
 export default DropdownComponent;
 
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
   },
   icon: {
-    marginRight: 5,
+    marginRight: 15,
   },
   placeholderStyle: {
     fontSize: 16,

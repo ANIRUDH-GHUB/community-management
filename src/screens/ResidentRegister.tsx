@@ -9,6 +9,8 @@ import Button from "../components/Button/Button";
 
 import common from "../../constants/Styles";
 import { colors, roles } from "../../constants/variables";
+import { useDispatch } from "react-redux";
+import { setUser } from "../state/slice/userSlice";
 
 const ResidentRegister = ({ navigation }: any) => {
   const [name, setName] = useState<string>("");
@@ -22,8 +24,10 @@ const ResidentRegister = ({ navigation }: any) => {
   const [genre, setGenre] = useState<string>("");
   const [hobby, setHobby] = useState<string>("");
   const [degree, setDegree] = useState<string>("");
-  const role = 'resident';
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const register = async () => {
+    setLoading(true);
     const res = await createUser(
       {
         name,
@@ -39,7 +43,9 @@ const ResidentRegister = ({ navigation }: any) => {
       },
       roles.RESIDENT
     );
+    setLoading(false);
     if(res){
+      dispatch(setUser(res?.data))
       navigation.navigate('ResidentLanding');
     }
   };
@@ -106,7 +112,7 @@ const ResidentRegister = ({ navigation }: any) => {
         onChangeText={setPassword}
       />
       <Divider height={30} />
-      <Button onPress={register} bgColor={colors.fountainblue}>
+      <Button onPress={register} bgColor={colors.fountainblue} loading={loading}>
         CREATE
       </Button>
       <Divider height={30} />

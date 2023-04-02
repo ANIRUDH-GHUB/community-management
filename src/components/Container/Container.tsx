@@ -9,7 +9,7 @@ interface ContainerProps {
 }
 
 const isMobile = () => {
-  console.log(Platform.OS)
+  // console.log(Platform.OS)
   return Platform.OS !== "web";
 };
 

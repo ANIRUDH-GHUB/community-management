@@ -24,6 +24,7 @@ const Button: React.FC<ButtonProps> = (props) => {
         style,
       ]}
       onPress={onPress}
+      disabled={loading}
     >
       {loading ? (
         <ActivityIndicator animating={true} />

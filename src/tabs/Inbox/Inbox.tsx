@@ -17,22 +17,22 @@ const Inbox = () => {
   // const [filteredInbox, setSelected] = useState<string>("pending");
   const [selected, setSelected] = useState<string>("pending");
 
-  const filteredList = () => {
-    let res;
-    switch(selected){
-      case "pending":
-        res =  inbox?.filter(item=>item.approved == false);
-        break
-      case "upcoming":
-        res =  inbox?.filter(item=>item.approved == true);
-        break;
-      case "past":
-        res =  inbox?.filter(item=>item.approved == true);
-        break;
-    }
-    console.log(res)  
-    return res;
-  }
+  // const filteredList = () => {
+  //   let res;
+  //   switch(selected){
+  //     case "pending":
+  //       res =  inbox?.filter(item=>item.approved == false);
+  //       break
+  //     case "upcoming":
+  //       res =  inbox?.filter(item=>item.approved == true);
+  //       break;
+  //     case "past":
+  //       res =  inbox?.filter(item=>item.approved == true);
+  //       break;
+  //   }
+  //   console.log(res)  
+  //   return res;
+  // }
 
   return (
     <Container style={common.container}>
@@ -63,7 +63,7 @@ const Inbox = () => {
         ))}
       </View>
       <ScrollView>
-        <InboxList list={filteredList()} options={selected=='pending'} />
+        {/* <InboxList list={filteredList()} options={selected=='pending'} /> */}
       </ScrollView>
     </Container>
   );
