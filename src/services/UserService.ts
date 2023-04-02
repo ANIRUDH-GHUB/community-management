@@ -3,11 +3,11 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { fetchCollectionData, fetchDocData, pushDataToDoc } from ".";
-import user from "../../assets/json/user.json";
+import userJSON from "../../assets/json/user.json";
 import { auth } from "../../firebase";
 import { USER } from "../model/interfaces";
 import * as Keychain from "react-native-keychain";
-import { removeStoreData, setStoreData } from "./StorageService";
+import { getStoreData, removeStoreData, setStoreData } from "./StorageService";
 
 /**
  * This functionn creates user based on role
@@ -16,7 +16,7 @@ import { removeStoreData, setStoreData } from "./StorageService";
  *
  */
 export const createUser = async (user: USER, role: string) => {
-  const res = { data: "", success: false, err: "" };
+  const res = { data: "" as any, success: false, err: "" };
   await createUserWithEmailAndPassword(auth, user?.email, user?.password)
     .then(async (response) => {
       console.log(response);
@@ -25,6 +25,7 @@ export const createUser = async (user: USER, role: string) => {
       const uid = response.user.uid;
       const data = {
         name: user?.name || "",
+        email: user?.email || "",
         dob: user?.dob || "",
         mobile_num: user?.mobileNum || "",
         no_of_residents: user?.noOfResidents || "",
@@ -35,6 +36,10 @@ export const createUser = async (user: USER, role: string) => {
         role: role || "visitor",
       };
       await pushDataToDoc("user", uid, data);
+      setStoreData("user_creds", {
+        role: role,
+        token: uid,
+      });
     })
     .catch((err) => {
       res.err = err;
@@ -53,6 +58,7 @@ export const loginUser = async (user: any) => {
     .then(async (userCredential) => {
       console.log(userCredential);
       res = await fetchDocData("user", userCredential.user.uid);
+      console.log("res", res);
       setStoreData("user_creds", {
         role: res?.data?.role,
         token: userCredential.user.uid,
@@ -65,18 +71,23 @@ export const loginUser = async (user: any) => {
   return res;
 };
 
-export const isResident = (user: any) => user.role === 'resident'
+export const isResident = (user: any) => user.role === "resident";
 
 export const getAllResidents = async () => {
-  console.log('inside')
-  const res = await fetchCollectionData('user');
+  const res = await fetchCollectionData("user");
   return res.data?.filter(isResident);
-}
+};
 
 export const logoutUser = async () => {
   removeStoreData("user_creds");
 };
 
-export const fetchUserDetails = () => {
-  return user;
+export const fetchUserDetails = async () => {
+  const creds = await getStoreData("user_creds");
+  const res = await fetchDocData("user", creds.token);
+  if (res.success) {
+    return res.data;
+  } else {
+    return userJSON;
+  }
 };
