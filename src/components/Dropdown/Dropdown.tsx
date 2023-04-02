@@ -12,9 +12,6 @@ interface DropdownInterface {
 
 const DropdownComponent: React.FC<DropdownInterface> = (props) => {
   const { data, value, setValue, placeHolder } = props;
-  useEffect(() => {
-    console.log('val', value);
-  }, [value]);
 
   return (
     <Dropdown
