@@ -45,13 +45,14 @@ export const fetchDocData = async (
   const db = getFirestore(app);
   const ref = collection(db, collectionName);
   const docRef = doc(ref, id);
-  const res = { data: "", success: false, err: "" };
+  const res = { data: "" as any, success: false, err: "" };
   await getDoc(docRef)
     .then((doc) => {
       if (doc.exists()) {
         console.log("Document data:", doc.data());
         res.success = true;
         res.data = doc.data() as any;
+        res.data.uid = id;
       } else {
         console.log("No such document!");
         res.err = "Document not found";

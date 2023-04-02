@@ -31,6 +31,8 @@ import common from "./../../constants/Styles";
 import Button from "../components/Button/Button";
 import { createUser } from "../services/UserService";
 import { colors, roles } from "../../constants/variables";
+import { useDispatch } from "react-redux";
+import { setUser } from "../state/slice/userSlice";
 
 const VisitorRegister = ({ navigation }: any) => {
   const [name, setName] = useState<string>("");
@@ -38,13 +40,17 @@ const VisitorRegister = ({ navigation }: any) => {
   const [password, setPassword] = useState<string>("");
   const [cPassword, setCPassword] = useState<string>("");
   const [mobileNum, setMobileNum] = useState<string>("");
-
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const register = async () => {
+    setLoading(true);
     const res = await createUser(
       { name, email, password, mobileNum },
       roles.VISITOR
     );
-    if (res) {
+    setLoading(false);
+    if(res){
+      dispatch(setUser(res?.data))
       navigation.navigate("VisitorLanding");
     }
   };
@@ -76,7 +82,7 @@ const VisitorRegister = ({ navigation }: any) => {
         onChangeText={setMobileNum}
       />
       <Divider height={30} />
-      <Button onPress={register} bgColor={colors.fountainblue}>
+      <Button onPress={register} bgColor={colors.fountainblue} loading={loading}>
         CREATE
       </Button>
       <Divider height={30} />
