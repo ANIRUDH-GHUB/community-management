@@ -26,7 +26,7 @@ export const colors = {
 export const roles = {
   VISITOR: "visitor",
   RESIDENT: "resident",
-  ADMIN: "ADMIN",
+  ADMIN: "admin",
 };
 
 export const rolePath = {

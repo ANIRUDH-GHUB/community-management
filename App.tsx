@@ -11,6 +11,7 @@ import Container from "./src/components/Container/Container";
 import common from "./constants/Styles";
 import { StatusBar } from "expo-status-bar";
 import ResidentLanding from "./src/screens/ResidentLanding";
+import AdminLanding from "./src/screens/AdminLanding";
 import VisitorLanding from "./src/screens/VisitorLanding";
 import ResidentRegister from "./src/screens/ResidentRegister";
 import VisitorRegister from "./src/screens/VisitorRegister";
@@ -57,6 +58,11 @@ export default function App() {
             <Stack.Screen
               name="VisitorLanding"
               component={VisitorLanding}
+              options={headerHidden}
+            />
+            <Stack.Screen
+              name="AdminLanding"
+              component={AdminLanding}
               options={headerHidden}
             />
             <Stack.Screen name="Login" component={Login} />
