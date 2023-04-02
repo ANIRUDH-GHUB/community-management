@@ -6,6 +6,7 @@ export const containsObject = (arr: any[], obj: { [key: string]: any }) =>
   arr?.some((item) => JSON.stringify(item) === JSON.stringify(obj));
 
 export const scheduleVisit = async (booking: {
+  id:any;
   res: any;
   visId: string;
   date: any;

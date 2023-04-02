@@ -9,5 +9,9 @@ export const getAllUsers = async (id: string = "") => {
 
 export const getAllVisitorBookings = async (id: string = "") => {
   const res = await fetchCollectionData("bookings");
-  return res.data;
+  let bookings:any[]=[];
+  res?.data?.map((item:any)=>item.visitors)?.forEach((item:any[])=>{
+    bookings = bookings.concat(item)
+  });
+  return bookings
 };

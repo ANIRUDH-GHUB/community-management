@@ -1,8 +1,9 @@
-import { pushDataToDoc } from ".";
+import {  pushDataToDoc } from ".";
 import { fetchDocData } from "./";
 import { getStoreData } from "./StorageService";
 
 export const addService = async (service: {
+  service_id:any
   service: any;
   resId: string;
   date: any;

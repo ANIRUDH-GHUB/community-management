@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  Image, Pressable, ScrollView, Text,
-  View
-} from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
+
+import CancelIcon from "./../../../assets/icons/cancel.png";
+import DoneIcon from "./../../../assets/icons/done.png";
 import common from "../../../constants/Styles";
 import { colors } from "../../../constants/variables";
 import Button from "../../components/Button/Button";
@@ -14,13 +14,12 @@ import EditIcon from "./../../../assets/icons/edit.png";
 import { FlatList } from "react-native-gesture-handler";
 import Header from "../../components/Header/Header";
 
-
 const getDate = (s: number) => {
   const t = new Date(0);
   t.setSeconds(s);
   return t;
 };
-const AdminManageVisitors= () => {
+const AdminManageVisitors = () => {
   const [bookings, setBookings] = useState<any>([]);
 
   useEffect(() => {
@@ -59,10 +58,10 @@ const UserList = ({ list, options }: any) => {
               >
                 <View>
                   <Text style={[common.text, common.md]}>
-                    {item.item?.res?.name || ''}
+                    {item.item?.res?.name || ""}
                   </Text>
                   <Text style={[common.text, common.sm]}>
-                  
+                    {getDate(item.item.date.seconds).toDateString()}
                     {" → "}
                     {item.item.duration} days
                   </Text>
@@ -75,11 +74,21 @@ const UserList = ({ list, options }: any) => {
                     }}
                   >
                     <Image
-                      source={EditIcon}
+                      source={CancelIcon}
                       resizeMode="contain"
                       style={{
-                        height: 30,
-                        width: 30,
+                        height: 45,
+                        width: 45,
+                        marginLeft: 10,
+                        marginRight: 10,
+                      }}
+                    />
+                    <Image
+                      source={DoneIcon}
+                      resizeMode="contain"
+                      style={{
+                        height: 45,
+                        width: 45,
                         marginLeft: 10,
                         marginRight: 10,
                       }}
@@ -94,6 +103,5 @@ const UserList = ({ list, options }: any) => {
     </View>
   );
 };
-
 
 export default AdminManageVisitors;

@@ -10,6 +10,9 @@ import styles from "./styles";
 import { getStoreData } from "../../services/StorageService";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import InputBox from "../../components/InputBox/InputBox";
+import { updateDocData } from "../../services";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const RequestServciePopup = ({ showForm, setShowForm }: any) => {
   const [date, setDate] = useState(new Date());
@@ -37,12 +40,14 @@ const RequestServciePopup = ({ showForm, setShowForm }: any) => {
     const creds = await getStoreData("user_creds");
     setShowForm(false);
     const service = {
+      service_id:uuidv4(),
       service: selectedService,
       resId: creds?.token,
       date: date,
       description: description,
     };
-    addService(service);
+  // addService(service);
+   updateDocData("services",creds.token,service,creds.token)
   };
 
   
