@@ -1,120 +1,141 @@
-import { Text, View,ScrollView,Modal,Alert, Pressable} from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import Container from "../../components/Container/Container";
+import { useEffect, useState } from "react";
+import {
+  Image, Pressable, ScrollView, Text,
+  View
+} from "react-native";
 import common from "../../../constants/Styles";
-import Card from "../../components/Card/Card";
-import styles from "./styles";
 import { colors } from "../../../constants/variables";
 import Button from "../../components/Button/Button";
-import { useEffect, useState } from "react";
-import { BlurView } from "expo-blur";
-import DropdownComponent from "../../components/Dropdown/Dropdown";
+import Card from "../../components/Card/Card";
+import Container from "../../components/Container/Container";
+import { getAllServices } from "../../services/ResidentServices";
+import EditIcon from "./../../../assets/icons/edit.png";
 // import { getAllServices } from "../../services/Services";
-import res from './../../../assets/json/residentservices.json'
-import { SERVICETYPE } from "../../model/interfaces";
 import { FlatList } from "react-native-gesture-handler";
 import Header from "../../components/Header/Header";
+import RequestServciePopup from "./RequestServciePopup";
 
-type ItemProps = { title: string };
 
-const servicesList = [
-  { label: 'Car Wash', value: 'car_wash' },
-  { label: 'Repair TV', value: 'tv_repair' },
-  { label: 'A/C Repair', value: 'ac_repair' },
-  { label: 'Plumber', value: 'plumber' },
-];
-const Item = ({ title }: ItemProps) => (
-  <View>
-    <Text>{title}</Text>
-  </View>
-);
-
+const getDate = (s: number) => {
+  const t = new Date(0);
+  t.setSeconds(s);
+  return t;
+};
 const Services = () => {
-  const [services, setServices] = useState<SERVICETYPE[]>([]);
+  const [services, setServices] = useState<any>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
+  const [selected, setSelected] = useState<string>("upcoming");
 
   useEffect(() => {
-    const response = res;
-    if (response) {
-      setServices(response);
-    }
-  }, []);
+    (async () => {
+      let services = await getAllServices();
+      console.log("services1", services);
+      switch (selected) {
+        case "upcoming":
+          services = services?.filter(
+            (item: any) => getDate(item?.date?.seconds) > new Date()
+          );
+          break;
+        case "past":
+          services = services?.filter(
+            (item: any) => getDate(item?.date?.seconds) <= new Date()
+          );
+          break;
+      }
+      setServices(services);
+    })();
+    console.log("services", services);
+  }, [selected, showForm]);
 
   return (
-    <Container>
+    <Container style={common.container}>
       <Header title="Services" />
-      <Button onPress={() => setShowForm(true)} >Request Services</Button>
-      <RequestServices showForm={showForm} setShowForm={setShowForm} />
-      <FlatList
-        data={services}
-        renderItem={(item) => {
-          console.log(item);
-          return (
-            <Card>
-              <Text style={[common.md]}>{item.item.service_name}</Text>
-              <Text style={[common.sm]}>{item.item.requested_date}</Text>
-            </Card>
-          );
-        }}
-      />
+      <Button onPress={() => setShowForm(true)}>Request Services</Button>
+      <View style={{ flexDirection: "row" }}>
+        {["upcoming", "past"].map((item) => (
+          <Pressable
+            key={item}
+            style={{ width: "50%", padding: 10 }}
+            onPress={() => setSelected(item)}
+          >
+            <Text
+              style={[
+                common.text,
+                common.sm,
+                common.capital,
+                common.center,
+                {
+                  color:
+                    selected == item ? colors.fountainblue : colors.slategray,
+                  fontFamily:
+                    selected == item ? "PTMono-Bold" : "PTMono-Regular",
+                },
+              ]}
+            >
+              {item}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+      <ScrollView>
+        <ServiceList list={services} options={true} />
+      </ScrollView>
+      <RequestServciePopup showForm={showForm} setShowForm={setShowForm} />
     </Container>
   );
 };
 
-const RequestServices = ({ showForm, setShowForm }: any) => {
-  const [date, setDate] = useState(new Date());
-  const [showDate, setShowDate] = useState(false);
-  const [selectedService, setSelectedService] = useState<any>();
-
-  const onChange = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate);
-    setShowDate(false);
-  };
-
+const ServiceList = ({ list, options }: any) => {
   return (
-    <Modal
-      animationType={"slide"}
-      transparent={showForm}
-      visible={showForm}
-      presentationStyle="formSheet"
-      onRequestClose={() => {
-        Alert.alert("Modal has now been closed.");
-      }}
-    >
-      <BlurView
-        intensity={90}
-        tint="dark"
-        style={{
-          display: "flex",
-          width: "100%",
-          height: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: colors.gray,
+    <View style={{ marginTop: 15 }}>
+      <FlatList
+        data={list}
+        renderItem={(item) => {
+          console.log();
+          return (
+            <Card>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View>
+                  <Text style={[common.text, common.md]}>
+                    {item.item?.service || ""}
+                  </Text>
+                  <Text style={[common.text, common.sm]}>
+                    {getDate(item.item.date.seconds).toDateString()}
+                    {" → "}
+                    {item.item.description} days
+                  </Text>
+                </View>
+                {options && (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Image
+                      source={EditIcon}
+                      resizeMode="contain"
+                      style={{
+                        height: 30,
+                        width: 30,
+                        marginLeft: 10,
+                        marginRight: 10,
+                      }}
+                    />
+                  </View>
+                )}
+              </View>
+            </Card>
+          );
         }}
-      >
-        <View
-          style={{
-            backgroundColor: colors.white,
-            width: "80%",
-          }}
-        >
-          <DropdownComponent data={servicesList} value={selectedService} setValue={setSelectedService}/>
-          <Pressable onPress={()=>setShowDate(true)}><Text>{date.toDateString()}</Text></Pressable>
-          {showDate && <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={"date"}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />}
-          <Button>Request</Button>
-          <Button onPress={() => setShowForm(false)}>Close</Button>
-        </View>
-      </BlurView>
-    </Modal>
+      />
+    </View>
   );
 };
 
