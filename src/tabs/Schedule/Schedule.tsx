@@ -120,7 +120,7 @@ const ScheduleList = ({ list, options }: any) => {
                   <Text style={[common.text, common.sm]}>
                     {getDate(item.item.date.seconds).toDateString()}
                     {" → "}
-                    {item.item.duration} days
+                    {item.item.duration} 
                   </Text>
                 </View>
                 {options && (

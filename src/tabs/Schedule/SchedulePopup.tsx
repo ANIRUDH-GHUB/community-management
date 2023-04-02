@@ -12,7 +12,7 @@ import { getAllResidents } from "../../services/UserService";
 import styles from "./style";
 import { getStoreData } from "../../services/StorageService";
 import AntDesign from "@expo/vector-icons/AntDesign";
-
+import { v4 as uuidv4 } from 'uuid';
 const SchedulePopup = ({ showForm, setShowForm }: any) => {
   const [date, setDate] = useState(new Date());
   const [duration, setDuration] = useState(1);
@@ -42,6 +42,7 @@ const SchedulePopup = ({ showForm, setShowForm }: any) => {
     const creds = await getStoreData("user_creds");
     setShowForm(false);
     const booking = {
+      id:uuidv4(),
       res: selectedRes,
       visId: creds?.token,
       date: date,

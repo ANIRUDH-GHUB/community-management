@@ -1,4 +1,4 @@
-import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import { collection, doc, getFirestore, setDoc} from "firebase/firestore";
 import { app } from "../../firebase";
 
 // export const getAllServices =  () => {

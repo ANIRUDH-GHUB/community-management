@@ -108,7 +108,7 @@ const ServiceList = ({ list, options }: any) => {
                   <Text style={[common.text, common.sm]}>
                     {getDate(item.item.date.seconds).toDateString()}
                     {" → "}
-                    {item.item.description} days
+                    {item.item.description} 
                   </Text>
                 </View>
                 {options && (
