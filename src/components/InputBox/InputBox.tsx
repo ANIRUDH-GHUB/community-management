@@ -11,11 +11,12 @@ interface InputProps {
   value: string;
   type?: any;
   customStyle?: any;
+  customTextStyle?:any;
   editable?: boolean;
 }
 
 const InputBox: React.FC<InputProps> = (props) => {
-  const { placeholder, onChangeText, value, type, customStyle, editable } = props;
+  const { placeholder, onChangeText, value, type, customStyle, editable,customTextStyle } = props;
   const [secure, setSecurity] = useState<boolean>(() => type === "password");
 
   return (
@@ -23,7 +24,7 @@ const InputBox: React.FC<InputProps> = (props) => {
       <View style={[styles.inp_container, customStyle]}>
         <TextInput
           editable={editable}
-          style={styles.input}
+          style={[styles.input,customTextStyle]}
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
@@ -76,13 +77,15 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingLeft: 16,
     marginRight: -10,
-    color: colors.white,
   },
 });
 InputBox.defaultProps = {
   type: "text",
   customStyle: {
     backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+  customTextStyle: {
+    color: colors.white,
   },
   editable: true
 };

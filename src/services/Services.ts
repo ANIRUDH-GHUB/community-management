@@ -1,13 +1,9 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
-import { Text } from "react-native";
-import { app, auth } from "../../firebase";
-import servicejson from "../../assets/json/residentservices.json";
-import { async } from "@firebase/util";
+import { app } from "../../firebase";
 
-export const getAllServices =  () => {
-    return  servicejson;
-};
+// export const getAllServices =  () => {
+//     return  servicejson;
+// };
 
 /**
  * Add data to collection doc in firebase

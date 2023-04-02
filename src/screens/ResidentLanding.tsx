@@ -16,7 +16,7 @@ const ResidentLanding = ({ navigation }: any) => {
         tint="dark"
         style={{ flex: 1, justifyContent: "flex-end" }}
       >
-        <Tab.Navigator screenOptions={screenOptions} initialRouteName="Inbox">
+        <Tab.Navigator screenOptions={screenOptions} initialRouteName="Services">
           <Tab.Screen name="Services" component={Services} />
           <Tab.Screen name="Inbox" component={Inbox} />
           <Tab.Screen name="Report" component={Report} />

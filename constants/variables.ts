@@ -35,6 +35,18 @@ export const rolePath = {
   admin: "AdminLanding",
 };
 
+export const activitiesList = [
+  { label: "Theft", value: "theft" },
+  { label: "Events", value: "event" },
+  { label: "Weather Alert", value: "weather_alert" },
+];
+export const servicesList = [
+  { label: "Car Wash", value: "car_wash" },
+  { label: "Repair TV", value: "tv_repair" },
+  { label: "A/C Repair", value: "ac_repair" },
+  { label: "Plumber", value: "plumber" },
+];
+
 export const errpr_messages: { [key: string]: string } = {
   "auth/invalid-email": "Invalid Email",
   "auth/user-not-found": "Email not found",
