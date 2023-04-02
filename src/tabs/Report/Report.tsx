@@ -128,16 +128,6 @@ const ServiceList = ({ list, options }: any) => {
                       alignItems: "center",
                     }}
                   >
-                    <Image
-                      source={EditIcon}
-                      resizeMode="contain"
-                      style={{
-                        height: 30,
-                        width: 30,
-                        marginLeft: 10,
-                        marginRight: 10,
-                      }}
-                    />
                   </View>
                 )}
               </View>
