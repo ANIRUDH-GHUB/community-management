@@ -17,6 +17,8 @@ import InboxIcon from "./../../assets/icons/inbox.png";
 import InboxSelectedIcon from "./../../assets/icons/inbox-selected.png";
 import ScheduleIcon from "./../../assets/icons/schedule.png";
 import ScheduleSelectedIcon from "./../../assets/icons/schedule-selected.png";
+import ApartmentSelectedIcon from "./../../assets/icons/apartment-selected.png";
+import ApartmentIcon from "./../../assets/icons/apartment.png";
 export const Tab = createBottomTabNavigator();
 
 const TAB_ICONS = {
@@ -28,6 +30,7 @@ const TAB_ICONS = {
     Services: PreferenceIcon,
     Report: ReportIcon,
     Schedule: ScheduleIcon,
+    Apartment: ApartmentIcon,
   },
   selected: {
     Home: PreferenceIcon,
@@ -37,6 +40,7 @@ const TAB_ICONS = {
     Services: PreferenceSelectedIcon,
     Report: ReportSelectedIcon,
     Schedule: ScheduleSelectedIcon,
+    Apartment: ApartmentSelectedIcon,
   },
 };
 
@@ -48,7 +52,7 @@ export const screenOptions:
     }) => BottomTabNavigationOptions) = ({ route }) => ({
   tabBarIcon: ({ focused, color, size }) => {
     let iconName = TAB_ICONS.unselected?.[route.name as TABS];
-    if(focused) iconName = TAB_ICONS.selected?.[route.name as TABS];
+    if (focused) iconName = TAB_ICONS.selected?.[route.name as TABS];
     return (
       <Image
         source={iconName}
