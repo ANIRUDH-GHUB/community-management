@@ -106,11 +106,6 @@ const ResidentRegister = ({ navigation }: any) => {
         onChangeText={setDegree}
       />
       <Divider height={30} />
-      <InputBox
-        placeholder="Your password"
-        value={password}
-        onChangeText={setPassword}
-      />
       <Divider height={30} />
       <Button onPress={register} bgColor={colors.fountainblue} loading={loading}>
         CREATE

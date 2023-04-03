@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/login.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.cypherani.communitymanagement"
     },
     "web": {
       "favicon": "./assets/icons/login.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ed05ea24-18cc-413a-9b15-65bdbfbcc61e"
+      }
     }
   }
 }

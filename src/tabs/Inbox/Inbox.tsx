@@ -109,61 +109,57 @@ const InboxList = ({ list, options }: any) => {
       : item?.rejected
       ? `${colors.peach}33`
       : `${colors.elevatedBackground}66`;
-      
+
   return (
     <View style={{ marginTop: 15 }}>
-      <FlatList
-        data={list}
-        renderItem={(item) => {
-          console.log();
-          return (
-            <Card style={{ backgroundColor: cardBackground(item?.item) }}>
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View>
-                  <Text style={[common.text, common.md, common.textLabel]}>
-                    {item.item?.visName || ""}
-                  </Text>
-                  <Text
-                    style={[
-                      common.text,
-                      common.sm,
-                      common.textLabel,
-                      { color: colors.slategray },
-                    ]}
-                  >
-                    {getDate(item.item.date.seconds).toDateString()}
-                    {" → "}
-                    {item.item.duration} days
-                  </Text>
-                </View>
-                {options && (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Icon
-                      icon={CancelIcon}
-                      onPress={() => approve(item?.item, false)}
-                    />
-                    <Icon
-                      icon={DoneIcon}
-                      onPress={() => approve(item?.item, true)}
-                    />
-                  </View>
-                )}
+      <View>
+        {list.map((item: any, index: number) => (
+          <Card style={{ backgroundColor: cardBackground(item) }} key={`${item.visId}${index}`}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View>
+                <Text style={[common.text, common.md, common.textLabel]}>
+                  {item?.visName || ""}
+                </Text>
+                <Text
+                  style={[
+                    common.text,
+                    common.sm,
+                    common.textLabel,
+                    { color: colors.slategray },
+                  ]}
+                >
+                  {getDate(item?.date?.seconds).toDateString()}
+                  {" → "}
+                  {item?.duration} days
+                </Text>
               </View>
-            </Card>
-          );
-        }}
-      />
+              {options && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Icon
+                    icon={CancelIcon}
+                    onPress={() => approve(item, false)}
+                  />
+                  <Icon
+                    icon={DoneIcon}
+                    onPress={() => approve(item, true)}
+                  />
+                </View>
+              )}
+            </View>
+          </Card>
+        ))}
+      </View>
     </View>
   );
 };

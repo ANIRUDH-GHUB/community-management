@@ -2,6 +2,7 @@ import React from "react";
 import { Image } from "react-native";
 import Button from "../Button/Button";
 import { GestureResponderEvent } from "react-native/Libraries/Types/CoreEventTypes";
+import { colors } from "../../../constants/variables";
 
 interface IconProps {
   style?: Object;
@@ -14,7 +15,7 @@ const Icon: React.FC<IconProps> = (props) => {
   const { style, icon, onPress, loading } = props;
   return (
     <Button
-      style={{ backgroundColor: "unset", width: "unset", padding: 0 }}
+      style={{ backgroundColor: `${colors.elevatedBackground}66`, width: 45, padding: 0 }}
       onPress={onPress}
       loading={loading}
     >
