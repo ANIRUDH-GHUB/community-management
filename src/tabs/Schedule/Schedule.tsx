@@ -58,7 +58,6 @@ const Schedule = () => {
     })();
   }, [selected, showForm]);
 
-
   return (
     <Container style={common.container}>
       <Header title="Schedule"></Header>
@@ -98,6 +97,12 @@ const Schedule = () => {
 };
 
 const ScheduleList = ({ list, options }: any) => {
+  const cardBackground = (item: any) =>
+    item?.approved
+      ? `${colors.green}33`
+      : item?.rejected
+      ? `${colors.peach}33`
+      : `${colors.elevatedBackground}66`;
   return (
     <View style={{ marginTop: 15 }}>
       <FlatList
@@ -105,7 +110,7 @@ const ScheduleList = ({ list, options }: any) => {
         renderItem={(item) => {
           console.log();
           return (
-            <Card>
+            <Card style={{ backgroundColor: cardBackground(item?.item) }}>
               <View
                 style={{
                   flex: 1,
@@ -114,13 +119,13 @@ const ScheduleList = ({ list, options }: any) => {
                 }}
               >
                 <View>
-                  <Text style={[common.text, common.md]}>
-                    {item.item?.res?.name || ''}
+                  <Text style={[common.text, common.md, common.textLabel]}>
+                    {item.item?.res?.name || ""}
                   </Text>
-                  <Text style={[common.text, common.sm]}>
+                  <Text style={[common.text, common.sm, common.textLabel, {color:colors.slategray}]}>
                     {getDate(item.item.date.seconds).toDateString()}
                     {" → "}
-                    {item.item.duration} 
+                    {item.item.duration}
                   </Text>
                 </View>
                 {options && (

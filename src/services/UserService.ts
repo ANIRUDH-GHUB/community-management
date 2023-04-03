@@ -72,6 +72,7 @@ export const loginUser = async (user: any) => {
 };
 
 export const isResident = (user: any) => user.role === "resident";
+export const isAdmin = (user: any) => user.role === "admin";
 
 export const getAllResidents = async () => {
   const res = await fetchCollectionData("user");
@@ -82,9 +83,9 @@ export const logoutUser = async () => {
   removeStoreData("user_creds");
 };
 
-export const fetchUserDetails = async () => {
+export const fetchUserDetails = async (id:string="") => {
   const creds = await getStoreData("user_creds");
-  const res = await fetchDocData("user", creds.token);
+  const res = await fetchDocData("user", id||creds.token);
   if (res.success) {
     return res.data;
   } else {

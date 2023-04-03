@@ -1,25 +1,24 @@
-import { Text, View,ScrollView,Modal,Alert, Pressable, Image} from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import Container from "../../components/Container/Container";
+import {
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import common from "../../../constants/Styles";
 import Card from "../../components/Card/Card";
+import Container from "../../components/Container/Container";
 
-import EditIcon from "./../../../assets/icons/edit.png";
-import { colors } from "../../../constants/variables";
-import Button from "../../components/Button/Button";
 import { useEffect, useState } from "react";
-import { BlurView } from "expo-blur";
-import { addService ,getAllActivities,getAllServices} from "../../services/ResidentServices";
-import DropdownComponent from "../../components/Dropdown/Dropdown";
-// import { getAllServices } from "../../services/Services";
-import res from './../../../assets/json/residentservices.json'
-import { SERVICETYPE } from "../../model/interfaces";
+import { activitiesLabel, colors } from "../../../constants/variables";
+import Button from "../../components/Button/Button";
+import {
+  getAllActivities,
+} from "../../services/ResidentServices";
 import { FlatList } from "react-native-gesture-handler";
 import Header from "../../components/Header/Header";
 import ReportPopup from "./ReportPopup";
 
 type ItemProps = { title: string };
-
 
 const Item = ({ title }: ItemProps) => (
   <View>
@@ -39,7 +38,7 @@ const Report = () => {
   useEffect(() => {
     (async () => {
       let activities = await getAllActivities();
-      console.log("all activities",activities)
+      console.log("all activities", activities);
       switch (selected) {
         case "upcoming":
           activities = activities?.filter(
@@ -54,13 +53,13 @@ const Report = () => {
       }
       setActivities(activities);
     })();
-    console.log("services",activities)
+    console.log("services", activities);
   }, [selected, showForm]);
 
   return (
-    <Container  style={common.container}>
+    <Container style={common.container}>
       <Header title="Report" />
-      <Button onPress={() => setShowForm(true)} >Report Activities</Button>
+      <Button onPress={() => setShowForm(true)}>Report Activities</Button>
       <View style={{ flexDirection: "row" }}>
         {["upcoming", "past"].map((item) => (
           <Pressable
@@ -88,7 +87,7 @@ const Report = () => {
         ))}
       </View>
       <ScrollView>
-        <ServiceList list={activities}  options={true} />
+        <ServiceList list={activities} options={true} />
       </ScrollView>
       <ReportPopup showForm={showForm} setShowForm={setShowForm} />
     </Container>
@@ -112,13 +111,14 @@ const ServiceList = ({ list, options }: any) => {
                 }}
               >
                 <View>
-                  <Text style={[common.text, common.md]}>
-                    {item.item?.activity || ''}
+                  <Text style={[common.text, common.md, common.textLabel]}>
+                    {activitiesLabel?.[item.item?.activity] || ""}
                   </Text>
-                  <Text style={[common.text, common.sm]}>
-                  {getDate(item.item.date.seconds).toDateString()}
-                    {" → "}
-                    {item.item.description} days
+                  <Text style={[common.text, common.sm, common.textLabel, {color:colors.policeBlue}]}>
+                    {item?.item?.description|| ""}
+                  </Text>
+                  <Text style={[common.text, common.sm, common.textLabel, {color:colors.slategray}]}>
+                    {getDate(item.item.date.seconds).toDateString()}
                   </Text>
                 </View>
                 {options && (
@@ -127,8 +127,7 @@ const ServiceList = ({ list, options }: any) => {
                       flexDirection: "row",
                       alignItems: "center",
                     }}
-                  >
-                  </View>
+                  ></View>
                 )}
               </View>
             </Card>
@@ -138,9 +137,5 @@ const ServiceList = ({ list, options }: any) => {
     </View>
   );
 };
-
-
-
-
 
 export default Report;

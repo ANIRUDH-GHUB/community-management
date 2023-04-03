@@ -11,6 +11,10 @@ export default StyleSheet.create({
     color: colors.white,
     fontFamily: "PTMono-Regular",
   },
+  textLabel: {
+    marginTop: 5,
+    marginBottom: 5
+  },
   center: {
     textAlign: "center",
   },

@@ -47,6 +47,19 @@ export const servicesList = [
   { label: "Plumber", value: "plumber" },
 ];
 
+export const serviceLabels = {
+  car_wash: "Car Wash",
+  tv_repair: "Repair TV",
+  ac_repair: "A/C Repair",
+  plumber: "Plumber",
+};
+
+export const activitiesLabel = {
+  theft: "Theft",
+  event: "Events",
+  weather_alert: "Weather Alert",
+}
+
 export const errpr_messages: { [key: string]: string } = {
   "auth/invalid-email": "Invalid Email",
   "auth/user-not-found": "Email not found",

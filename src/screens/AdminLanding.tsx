@@ -20,7 +20,7 @@ const AdminLanding = ({ navigation }: any) => {
       >
         <Tab.Navigator screenOptions={screenOptions} initialRouteName="Services">
           <Tab.Screen name="Services" component={AdminManageUsers} />
-          <Tab.Screen name="Inbox" component={AdminManageVisitors} />
+          <Tab.Screen name="Inbox" component={Inbox} />
           <Tab.Screen name="Report" component={Report} />
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
