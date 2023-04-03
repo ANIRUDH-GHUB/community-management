@@ -40,14 +40,16 @@ const RequestServciePopup = ({ showForm, setShowForm }: any) => {
     const creds = await getStoreData("user_creds");
     setShowForm(false);
     const service = {
-      service_id:uuidv4(),
+      // service_id:uuidv4(),
       service: selectedService,
       resId: creds?.token,
       date: date,
       description: description,
     };
-  // addService(service);
-   updateDocData("services",creds.token,service,creds.token)
+    console.log("start++++++++++++++++++++++++++++++++++");
+    await addService(service);
+    console.log("end++++++++++++++++++++++++++++++++++");
+  //  updateDocData("services",creds.token,service,creds.token)
   };
 
   

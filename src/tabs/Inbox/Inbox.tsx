@@ -1,45 +1,78 @@
-import React, { useState } from "react";
-import {
-  FlatList,
-  Image, Pressable, ScrollView, Text, View
-} from "react-native";
+import { useEffect, useState } from "react";
+import { Pressable, ScrollView, Text, View } from "react-native";
+
 import common from "../../../constants/Styles";
 import { colors } from "../../../constants/variables";
 import Card from "../../components/Card/Card";
 import Container from "../../components/Container/Container";
-import Header from "../../components/Header/Header";
+import {
+  getAllVisitorBookings,
+  getAllVisitorBookingsById,
+} from "../../services/AdminServices";
 import CancelIcon from "./../../../assets/icons/cancel.png";
 import DoneIcon from "./../../../assets/icons/done.png";
-import inboxJSON from "./../../../assets/json/inbox.json";
+// import { getAllServices } from "../../services/Services";
+import { FlatList } from "react-native-gesture-handler";
+import Header from "../../components/Header/Header";
+import Icon from "../../components/Icon/Icon";
+import { approve } from "../../services/MessageService";
+import { getStoreData } from "../../services/StorageService";
+import { isAdmin } from "../../services/UserService";
 
+const getDate = (s: number) => {
+  const t = new Date(0);
+  t.setSeconds(s);
+  return t;
+};
 const Inbox = () => {
-  const [inbox, setInbox] = useState(inboxJSON);
-  // const [filteredInbox, setSelected] = useState<string>("pending");
-  const [selected, setSelected] = useState<string>("pending");
+  const [bookings, setBookings] = useState<any>([]);
+  const [selected, setSelected] = useState<string>("invitations");
+  const [options, setOptions] = useState(false);
 
-  // const filteredList = () => {
-  //   let res;
-  //   switch(selected){
-  //     case "pending":
-  //       res =  inbox?.filter(item=>item.approved == false);
-  //       break
-  //     case "upcoming":
-  //       res =  inbox?.filter(item=>item.approved == true);
-  //       break;
-  //     case "past":
-  //       res =  inbox?.filter(item=>item.approved == true);
-  //       break;
-  //   }
-  //   console.log(res)  
-  //   return res;
-  // }
+  useEffect(() => {
+    (async () => {
+      const creds = await getStoreData("user_creds");
+      let bookings = isAdmin(creds)
+        ? await getAllVisitorBookings()
+        : await getAllVisitorBookingsById(creds?.token);
+      switch (selected) {
+        case "invitations":
+          bookings = bookings?.filter(
+            (item: any) =>
+              getDate(item?.date?.seconds) > new Date() &&
+              !item.approved &&
+              !item.rejected
+          );
+          break;
+        case "upcoming":
+          bookings = bookings?.filter(
+            (item: any) => getDate(item?.date?.seconds) > new Date()
+          );
+          break;
+        case "past":
+          bookings = bookings?.filter(
+            (item: any) => getDate(item?.date?.seconds) <= new Date()
+          );
+          break;
+      }
+      bookings.sort((a: any, b: any) => {
+        return (
+          (getDate(b?.date?.seconds) as any) -
+          (getDate(a?.date?.seconds) as any)
+        );
+      });
+      setBookings(bookings);
+      setOptions(selected === "invitations");
+    })();
+  }, [selected]);
 
   return (
     <Container style={common.container}>
-      <Header title="Inbox"></Header>
+      <Header title="Visitors" />
       <View style={{ flexDirection: "row" }}>
-        {["pending", "upcoming", "past"].map((item) => (
+        {["invitations", "upcoming", "past"].map((item) => (
           <Pressable
+            key={item}
             style={{ width: "33%", padding: 10 }}
             onPress={() => setSelected(item)}
           >
@@ -63,21 +96,28 @@ const Inbox = () => {
         ))}
       </View>
       <ScrollView>
-        {/* <InboxList list={filteredList()} options={selected=='pending'} /> */}
+        <InboxList list={bookings} options={options} />
       </ScrollView>
     </Container>
   );
 };
 
 const InboxList = ({ list, options }: any) => {
+  const cardBackground = (item: any) =>
+    item?.approved
+      ? `${colors.green}33`
+      : item?.rejected
+      ? `${colors.peach}33`
+      : `${colors.elevatedBackground}66`;
+      
   return (
     <View style={{ marginTop: 15 }}>
       <FlatList
         data={list}
         renderItem={(item) => {
-          console.log(item);
+          console.log();
           return (
-            <Card>
+            <Card style={{ backgroundColor: cardBackground(item?.item) }}>
               <View
                 style={{
                   flex: 1,
@@ -86,40 +126,36 @@ const InboxList = ({ list, options }: any) => {
                 }}
               >
                 <View>
-                  <Text style={[common.text, common.md]}>
-                    {item.item.visitor_name}
+                  <Text style={[common.text, common.md, common.textLabel]}>
+                    {item.item?.visName || ""}
                   </Text>
-                  <Text style={[common.text, common.sm]}>
-                    {item.item.requested_date}
+                  <Text
+                    style={[
+                      common.text,
+                      common.sm,
+                      common.textLabel,
+                      { color: colors.slategray },
+                    ]}
+                  >
+                    {getDate(item.item.date.seconds).toDateString()}
                     {" → "}
-                    {item.item.no_of_days} days
+                    {item.item.duration} days
                   </Text>
                 </View>
                 {options && (
                   <View
                     style={{
                       flexDirection: "row",
+                      alignItems: "center",
                     }}
                   >
-                    <Image
-                      source={CancelIcon}
-                      resizeMode="contain"
-                      style={{
-                        height: 45,
-                        width: 45,
-                        marginLeft: 10,
-                        marginRight: 10,
-                      }}
+                    <Icon
+                      icon={CancelIcon}
+                      onPress={() => approve(item?.item, false)}
                     />
-                    <Image
-                      source={DoneIcon}
-                      resizeMode="contain"
-                      style={{
-                        height: 45,
-                        width: 45,
-                        marginLeft: 10,
-                        marginRight: 10,
-                      }}
+                    <Icon
+                      icon={DoneIcon}
+                      onPress={() => approve(item?.item, true)}
                     />
                   </View>
                 )}

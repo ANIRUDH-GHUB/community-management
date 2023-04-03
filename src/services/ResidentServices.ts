@@ -3,7 +3,7 @@ import { fetchDocData } from "./";
 import { getStoreData } from "./StorageService";
 
 export const addService = async (service: {
-  service_id:any
+  // service_id:any
   service: any;
   resId: string;
   date: any;
@@ -32,13 +32,14 @@ export const addActivity = async (activity: {
 };
 
 export const getAllServices = async (id: string = "") => {
-  console.log("getting all services");
   if (id == "") {
     const creds = await getStoreData("user_creds");
     id = creds.token;
   }
   const res = await fetchDocData("services", id);
-  return res?.data?.services || [];
+  console.log("getting all services", res);
+  
+  return res?.success ? res?.data?.services: [];
 };
 export const getAllActivities = async (id: string = "") => {
   console.log("getting all activities");

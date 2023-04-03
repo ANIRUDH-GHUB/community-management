@@ -8,17 +8,18 @@ import Button from "../../components/Button/Button";
 import DropdownComponent from "../../components/Dropdown/Dropdown";
 import { USER } from "../../model/interfaces";
 import { scheduleVisit } from "../../services/MessageService";
-import { getAllResidents } from "../../services/UserService";
+import { fetchUserDetails, getAllResidents } from "../../services/UserService";
 import styles from "./style";
 import { getStoreData } from "../../services/StorageService";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 const SchedulePopup = ({ showForm, setShowForm }: any) => {
   const [date, setDate] = useState(new Date());
   const [duration, setDuration] = useState(1);
   const [showDate, setShowDate] = useState(false);
   const [residents, setResidents] = useState<any>([]);
   const [selectedRes, setSelectedRes] = useState<any>();
+  const { user } = useSelector((state: any) => state.user);
 
   const fetchResidents = async () => {
     const res = await getAllResidents();
@@ -26,11 +27,11 @@ const SchedulePopup = ({ showForm, setShowForm }: any) => {
   };
   useEffect(() => {
     fetchResidents();
-  }, []);
+  }, [showForm]);
 
   useEffect(() => {
-    console.log(selectedRes);
-  }, [selectedRes]);
+    console.log(user);
+  }, [user]);
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
@@ -40,11 +41,13 @@ const SchedulePopup = ({ showForm, setShowForm }: any) => {
 
   const submitHadler = async () => {
     const creds = await getStoreData("user_creds");
+    console.log("date", user);
+    const userData = await fetchUserDetails();
     setShowForm(false);
     const booking = {
-      id:uuidv4(),
       res: selectedRes,
       visId: creds?.token,
+      visName: userData?.name || "Anonymous",
       date: date,
       duration: duration,
     };
@@ -82,16 +85,21 @@ const SchedulePopup = ({ showForm, setShowForm }: any) => {
           <Pressable
             onPress={() => setShowDate(true)}
             style={{
-              flexDirection: 'row',
+              flexDirection: "row",
               marginLeft: 16,
-              alignItems: 'center',
-              paddingBottom: 16,   
+              alignItems: "center",
+              paddingBottom: 16,
               height: 50,
               borderBottomColor: "rgb(128, 128, 128)",
               borderBottomWidth: 0.5,
             }}
           >
-            <AntDesign style={{marginRight: 15}} color="black" name="calendar" size={20} />
+            <AntDesign
+              style={{ marginRight: 15 }}
+              color="black"
+              name="calendar"
+              size={20}
+            />
             <Text>{date.toDateString()}</Text>
           </Pressable>
           <DropdownComponent

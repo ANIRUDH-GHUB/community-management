@@ -4,13 +4,11 @@ import {
   View
 } from "react-native";
 import common from "../../../constants/Styles";
-import { colors } from "../../../constants/variables";
+import { colors, serviceLabels } from "../../../constants/variables";
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import Container from "../../components/Container/Container";
 import { getAllServices } from "../../services/ResidentServices";
-import EditIcon from "./../../../assets/icons/edit.png";
-// import { getAllServices } from "../../services/Services";
 import { FlatList } from "react-native-gesture-handler";
 import Header from "../../components/Header/Header";
 import RequestServciePopup from "./RequestServciePopup";
@@ -29,7 +27,7 @@ const Services = () => {
   useEffect(() => {
     (async () => {
       let services = await getAllServices();
-      console.log("services1", services);
+      // console.log("services1", services);
       switch (selected) {
         case "upcoming":
           services = services?.filter(
@@ -44,7 +42,7 @@ const Services = () => {
       }
       setServices(services);
     })();
-    console.log("services", services);
+    // console.log("services", services);
   }, [selected, showForm]);
 
   return (
@@ -102,13 +100,14 @@ const ServiceList = ({ list, options }: any) => {
                 }}
               >
                 <View>
-                  <Text style={[common.text, common.md]}>
-                    {item.item?.service || ""}
+                  <Text style={[common.text, common.md, common.textLabel]}>
+                    {serviceLabels?.[item.item?.service] || ""}
                   </Text>
-                  <Text style={[common.text, common.sm]}>
+                  <Text style={[common.text, common.sm, common.textLabel, {color:colors.policeBlue}]}>
+                    {item?.item?.description|| ""}
+                  </Text>
+                  <Text style={[common.text, common.sm, common.textLabel, {color:colors.slategray}]}>
                     {getDate(item.item.date.seconds).toDateString()}
-                    {" → "}
-                    {item.item.description} 
                   </Text>
                 </View>
                 {options && (

@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, Text, View, Pressable } from "react-native";
 
-import CancelIcon from "./../../../assets/icons/cancel.png";
-import DoneIcon from "./../../../assets/icons/done.png";
 import common from "../../../constants/Styles";
-import { colors } from "../../../constants/variables";
-import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import Container from "../../components/Container/Container";
 import { getAllVisitorBookings } from "../../services/AdminServices";
-import EditIcon from "./../../../assets/icons/edit.png";
+import CancelIcon from "./../../../assets/icons/cancel.png";
+import DoneIcon from "./../../../assets/icons/done.png";
 // import { getAllServices } from "../../services/Services";
 import { FlatList } from "react-native-gesture-handler";
 import Header from "../../components/Header/Header";
+import { colors } from "../../../constants/variables";
 
 const getDate = (s: number) => {
   const t = new Date(0);
@@ -21,6 +19,7 @@ const getDate = (s: number) => {
 };
 const AdminManageVisitors = () => {
   const [bookings, setBookings] = useState<any>([]);
+  const [selected, setSelected] = useState<string>("pending");
 
   useEffect(() => {
     (async () => {
@@ -33,6 +32,32 @@ const AdminManageVisitors = () => {
   return (
     <Container style={common.container}>
       <Header title="Visitors" />
+      <View style={{ flexDirection: "row" }}>
+        {["upcoming", "past"].map((item) => (
+          <Pressable
+            key={item}
+            style={{ width: "50%", padding: 10 }}
+            onPress={() => setSelected(item)}
+          >
+            <Text
+              style={[
+                common.text,
+                common.sm,
+                common.capital,
+                common.center,
+                {
+                  color:
+                    selected == item ? colors.fountainblue : colors.slategray,
+                  fontFamily:
+                    selected == item ? "PTMono-Bold" : "PTMono-Regular",
+                },
+              ]}
+            >
+              {item}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
       <ScrollView>
         <UserList list={bookings} options={true} />
       </ScrollView>
