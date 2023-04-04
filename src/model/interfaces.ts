@@ -20,7 +20,7 @@ export interface SERVICETYPE {
   description: string;
 }
 
-export type COLLLECTIONS = 'user' | 'services' | 'bookings' | 'activities';
+export type COLLLECTIONS = 'user' | 'services' | 'bookings' | 'activities' | 'apartments';
 
 export type ROLES = "resident" | "visitor" | "admin";
 

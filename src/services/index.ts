@@ -1,11 +1,17 @@
 import {
   collection,
-  doc,arrayUnion,
+  doc,
+  arrayUnion,
   getFirestore,
   setDoc,
   getDoc,
   getDocs,
-  updateDoc,query,where,QuerySnapshot,DocumentData
+  updateDoc,
+  query,
+  where,
+  QuerySnapshot,
+  DocumentData,
+  deleteDoc,
 } from "firebase/firestore";
 import { app } from "../../firebase";
 import { COLLLECTIONS } from "../model/interfaces";
@@ -23,8 +29,14 @@ export const pushDataToDoc = async (
 ) => {
   const db = getFirestore(app);
   const ref = collection(db, collectionName);
-  const docRef = doc(ref, id);
-  await setDoc(docRef,data)
+  let docRef;
+  if (id == "") {
+    docRef = doc(ref);
+    console.log("came");
+  } else {
+    docRef = doc(ref, id);
+  }
+  await setDoc(docRef, data)
     .then(() => {
       console.log("Document has been added succesfully");
     })
@@ -32,9 +44,6 @@ export const pushDataToDoc = async (
       console.log("Error adding document", err);
     });
 };
-
-
-
 
 /**
  * Fetched data from collection doc in firebase
@@ -72,30 +81,40 @@ export const fetchDocData = async (
 export const updateDocData = async (
   collectionName: COLLLECTIONS,
   id: string,
-  data:any,
-  serviceid:any
+  data: any,
+  serviceid: any
 ) => {
   const db = getFirestore(app);
   const ref = collection(db, collectionName);
-  console.log("line 80",id)
+  console.log("line 80", id);
   const q = query(ref, where("services", "array-contains", { resId: id }));
-getDocs(q).then((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-    // update the document here
-    console.log("found doc");
+  getDocs(q).then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      // update the document here
+      console.log("found doc");
+    });
   });
-});
-
-  
 
   const res = { data: "" as any, success: false, err: "" };
   //await updateDoc(docRef,{services:data}).then(()=>console.log("updated"));
   return res;
 };
 
-
-
-
+export const deleteDataFromDoc = async (
+  collectionName: COLLLECTIONS,
+  id: string
+) => {
+  const db = getFirestore(app);
+  const ref = collection(db, collectionName);
+  const docRef = doc(ref, id);
+  deleteDoc(docRef)
+    .then(() => {
+      console.log("deleted doc successfully");
+    })
+    .catch((err) => {
+      console.log("Error while deleting document:", err);
+    });
+};
 
 export const fetchCollectionData = async (collectionName: COLLLECTIONS) => {
   const db = getFirestore(app);

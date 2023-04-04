@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Image, Pressable, ScrollView, Text,
-  View
-} from "react-native";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import common from "../../../constants/Styles";
 import { colors } from "../../../constants/variables";
 import Button from "../../components/Button/Button";
@@ -13,7 +10,6 @@ import EditIcon from "./../../../assets/icons/edit.png";
 // import { getAllServices } from "../../services/Services";
 import { FlatList } from "react-native-gesture-handler";
 import Header from "../../components/Header/Header";
-
 
 const getDate = (s: number) => {
   const t = new Date(0);
@@ -26,6 +22,7 @@ const AdminManageUsers = () => {
   useEffect(() => {
     (async () => {
       let users = await getAllUsers();
+      users = users.filter((item: any) => item.role !== "admin");
       console.log("All users", users);
       setUsers(users);
     })();
@@ -64,7 +61,7 @@ const UserList = ({ list, options }: any) => {
                   <Text style={[common.text, common.sm]}>
                     {item.item.dob}
                     {" → "}
-                    {item.item.email} 
+                    {item.item.email}
                   </Text>
                 </View>
                 {options && (
@@ -94,6 +91,5 @@ const UserList = ({ list, options }: any) => {
     </View>
   );
 };
-
 
 export default AdminManageUsers;

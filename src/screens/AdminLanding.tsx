@@ -8,7 +8,7 @@ import Inbox from "../tabs/Inbox/Inbox";
 import Report from "../tabs/Report/Report";
 import { BlurView } from "expo-blur";
 import AdminManageUsers from "../tabs/Admin/AdminManageUsers";
-import AdminManageVisitors from "../tabs/Admin/AdminManageVisitors";
+import Apartment from "../tabs/Admin/Apartment";
 
 const AdminLanding = ({ navigation }: any) => {
   return (
@@ -21,7 +21,7 @@ const AdminLanding = ({ navigation }: any) => {
         <Tab.Navigator screenOptions={screenOptions} initialRouteName="Services">
           <Tab.Screen name="Services" component={AdminManageUsers} />
           <Tab.Screen name="Inbox" component={Inbox} />
-          <Tab.Screen name="Report" component={Report} />
+          <Tab.Screen name="Apartment" component={Apartment} />
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
       </BlurView>
