@@ -1,0 +1,1 @@
+export const capitalise = (s:string) => s;
