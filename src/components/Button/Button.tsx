@@ -10,21 +10,26 @@ interface ButtonProps {
   loading?: boolean;
   onPress?: (event: GestureResponderEvent) => void;
   children?: string | JSX.Element | JSX.Element[] | (() => JSX.Element);
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
-  const { style, onPress, children, bgColor, loading } = props;
+  const { style, onPress, children, bgColor, loading, disabled } = props;
   return (
     <Pressable
       style={({ pressed }) => [
         {
-          backgroundColor: pressed ? `${bgColor}A6` : bgColor,
+          backgroundColor: disabled
+            ? colors.slategray
+            : pressed
+            ? `${bgColor}A6`
+            : bgColor,
         },
         styles.btn,
         style,
       ]}
       onPress={onPress}
-      disabled={loading}
+      disabled={loading || disabled}
     >
       {loading ? (
         <ActivityIndicator animating={true} />
@@ -43,6 +48,7 @@ Button.defaultProps = {
   loading: false,
   onPress: () => console.log("clicked"),
   children: "Button",
+  disabled: false,
 };
 
 export default Button;

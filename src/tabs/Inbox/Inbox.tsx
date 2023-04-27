@@ -11,7 +11,7 @@ import {
 } from "../../services/AdminServices";
 import CancelIcon from "./../../../assets/icons/cancel.png";
 import DoneIcon from "./../../../assets/icons/done.png";
-// import { getAllServices } from "../../services/Services";
+// import { getAllServicesById } from "../../services/Services";
 import { FlatList } from "react-native-gesture-handler";
 import Header from "../../components/Header/Header";
 import Icon from "../../components/Icon/Icon";

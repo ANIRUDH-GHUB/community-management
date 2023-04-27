@@ -5,11 +5,10 @@ import InputBox from "./../../components/InputBox/InputBox";
 import { updateUser } from "./../../services/UserService";
 import Button from "./../../components/Button/Button";
 
-import common from "./../../../constants/Styles";
-import { colors, roles } from "./../../../constants/variables";
+import { colors } from "./../../../constants/variables";
 import { useDispatch } from "react-redux";
 import { setUser } from "./../../state/slice/userSlice";
-import { USER } from "../../model/interfaces";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { View } from "react-native";
 
 const UserEdit = ({ user, onCancel, onChange }: any) => {
@@ -17,7 +16,7 @@ const UserEdit = ({ user, onCancel, onChange }: any) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [mobileNum, setMobileNum] = useState<string>("");
-  const [dob, setDOB] = useState<string>("");
+  const [dob, setDOB] = useState<any>("");
   const [unit, setUnit] = useState<string>("");
   const [noOfResidents, setNoOfResidents] = useState<string>("");
   const [genre, setGenre] = useState<string>("");
@@ -29,7 +28,14 @@ const UserEdit = ({ user, onCancel, onChange }: any) => {
   const [loading, setLoading] = useState(false);
   const [uid, setUID] = useState("");
   const [role, setRole] = useState("resident");
+  const [showDate, setShowDate] = useState(false);
   const dispatch = useDispatch();
+
+  const onDateUpdate = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate || dob;
+    setDOB(currentDate);
+    setShowDate(false);
+  };
 
   const update = async () => {
     setLoading(true);
@@ -62,7 +68,9 @@ const UserEdit = ({ user, onCancel, onChange }: any) => {
       setName(user?.name);
       setEmail(user?.email);
       setMobileNum(user?.mobile_num || "");
-      setDOB(user?.dob || "");
+      // console.log(user?.dob)
+      // setDOB(new Date(user?.dob || 0));
+      setDOB(user?.dob);
       setUnit(user?.unit || "");
       setNoOfResidents(user?.no_of_residents || "");
       setGenre(user?.genre || "");
@@ -77,6 +85,19 @@ const UserEdit = ({ user, onCancel, onChange }: any) => {
   }, [user]);
   return (
     <Container>
+      {/* <View>
+        {console.log(showDate)}
+        {showDate && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={dob}
+            mode={"date"}
+            is24Hour={true}
+            display="default"
+            onChange={onDateUpdate}
+          />
+        )}
+      </View> */}
       <Divider height={50} />
       <InputBox placeholder="Name" value={name} onChangeText={setName} />
       <Divider height={30} />
@@ -90,7 +111,8 @@ const UserEdit = ({ user, onCancel, onChange }: any) => {
       <Divider height={30} />
       <InputBox
         placeholder="DOB(MM/DD/YYYY)"
-        value={dob}
+        value={dob.toLocaleString().split(",")[0] || ""}
+        onPress={() => setShowDate(true)}
         onChangeText={setDOB}
       />
       <Divider height={30} />

@@ -10,6 +10,7 @@ import Header from "../../components/Header/Header";
 import {
   deleteActivity,
   getAllActivities,
+  getAllActivitiesById,
 } from "../../services/ResidentServices";
 import { fromToday, getDateTime } from "../../utils/dateUtil";
 import ReportPopup from "./ReportPopup";
@@ -17,12 +18,15 @@ import EditIcon from "./../../../assets/icons/edit.png";
 import DeleteIcon from "./../../../assets/icons/delete.png";
 import Icon from "../../components/Icon/Icon";
 import Alert from "../../components/Alert/Alert";
+import { isAdmin } from "../../services/UserService";
+import { getStoreData } from "../../services/StorageService";
 
 const Report = () => {
   const [activities, setActivities] = useState<[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>("upcoming");
   const [activity, selectedActivity] = useState();
+  const [role, setRole] = useState("resident");
   const [refresh, setRefresh] = useState(false);
 
   const editActivity = (item: any) => {
@@ -39,7 +43,11 @@ const Report = () => {
 
   useEffect(() => {
     (async () => {
-      let activities = await getAllActivities();
+      const creds = await getStoreData("user_creds");
+      let activities = isAdmin(creds)
+        ? await getAllActivities()
+        : await getAllActivitiesById();
+        setRole(creds.role); setRole(creds.role);
       switch (selected) {
         case "upcoming":
           activities = activities?.filter((item: any) =>
@@ -67,7 +75,12 @@ const Report = () => {
   return (
     <Container style={common.container}>
       <Header title="Report" />
-      <Button onPress={() => setShowForm(true)}>Report Activities</Button>
+      <View>
+        {!isAdmin({ role: role }) && (
+          <Button onPress={() => setShowForm(true)}>Report Activities</Button>
+        )}
+      </View>
+      
       <View style={{ flexDirection: "row" }}>
         {["upcoming", "past"].map((item) => (
           <Pressable

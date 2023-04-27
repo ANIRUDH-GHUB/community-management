@@ -5,7 +5,11 @@ import { colors, serviceLabels } from "../../../constants/variables";
 import Button from "../../components/Button/Button";
 import Card from "../../components/Card/Card";
 import Container from "../../components/Container/Container";
-import { getAllServices, deleteService } from "../../services/ResidentServices";
+import {
+  getAllServicesById,
+  deleteService,
+  getAllServices,
+} from "../../services/ResidentServices";
 import { FlatList } from "react-native-gesture-handler";
 import Header from "../../components/Header/Header";
 import EditIcon from "./../../../assets/icons/edit.png";
@@ -14,12 +18,15 @@ import RequestServciePopup from "./RequestServciePopup";
 import { fromToday, getDateTime } from "../../utils/dateUtil";
 import Icon from "../../components/Icon/Icon";
 import Alert from "../../components/Alert/Alert";
+import { getStoreData } from "../../services/StorageService";
+import { isAdmin } from "../../services/UserService";
 
 const Services = () => {
   const [services, setServices] = useState<any>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>("upcoming");
   const [service, selectedService] = useState();
+  const [role, setRole] = useState("resident");
   const [refresh, setRefresh] = useState(false);
 
   const editService = (item: any) => {
@@ -36,8 +43,11 @@ const Services = () => {
 
   useEffect(() => {
     (async () => {
-      let services = await getAllServices();
-      console.log(services);
+      const creds = await getStoreData("user_creds");
+      let services = isAdmin(creds)
+        ? await getAllServices()
+        : await getAllServicesById();
+      setRole(creds.role);
       switch (selected) {
         case "upcoming":
           services = services?.filter((item: any) =>
@@ -65,7 +75,11 @@ const Services = () => {
   return (
     <Container style={common.container}>
       <Header title="Services" />
-      <Button onPress={() => setShowForm(true)}>Request Services</Button>
+      <View>
+        {!isAdmin({ role: role }) && (
+          <Button onPress={() => setShowForm(true)}>Request Services</Button>
+        )}
+      </View>
       <View style={{ flexDirection: "row" }}>
         {["upcoming", "past"].map((item) => (
           <Pressable
@@ -95,7 +109,7 @@ const Services = () => {
       <ScrollView>
         <ServiceList
           list={services}
-          options={selected !== 'past'}
+          options={selected !== "past"}
           editService={editService}
           onDelete={onDelete}
           setRefresh={setRefresh}

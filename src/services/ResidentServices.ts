@@ -1,4 +1,4 @@
-import { pushDataToDoc } from ".";
+import { fetchCollectionData, pushDataToDoc } from ".";
 import { getDateTime } from "../utils/dateUtil";
 import { fetchDocData } from "./";
 import { getStoreData } from "./StorageService";
@@ -100,7 +100,7 @@ export const deleteActivity = async (activity: {
   pushDataToDoc("activities", activity.resId, { activities: allActivities });
 };
 
-export const getAllServices = async (id: string = "") => {
+export const getAllServicesById = async (id: string = "") => {
   if (id == "") {
     const creds = await getStoreData("user_creds");
     id = creds.token;
@@ -110,7 +110,21 @@ export const getAllServices = async (id: string = "") => {
 
   return res?.success ? res?.data?.services : [];
 };
-export const getAllActivities = async (id: string = "") => {
+
+export const getAllServices = async () => {
+  const res = await fetchCollectionData("services");
+
+  let services: any[] = [];
+  res?.data
+    ?.map((item: any) => item.services)
+    ?.forEach((item: any[]) => {
+      services = services.concat(item);
+    });
+  console.log(services);
+  return services;
+};
+
+export const getAllActivitiesById = async (id: string = "") => {
   console.log("getting all activities");
   if (id == "") {
     const creds = await getStoreData("user_creds");
@@ -118,4 +132,17 @@ export const getAllActivities = async (id: string = "") => {
   }
   const res = await fetchDocData("activities", id);
   return res?.data?.activities || [];
+};
+
+export const getAllActivities = async () => {
+  const res = await fetchCollectionData("activities");
+
+  let activities: any[] = [];
+  res?.data
+    ?.map((item: any) => item.activities)
+    ?.forEach((item: any[]) => {
+      activities = activities.concat(item);
+    });
+  console.log(activities);
+  return activities;
 };
