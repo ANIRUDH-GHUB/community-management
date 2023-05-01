@@ -63,7 +63,7 @@ const Profile = ({ navigation }: any) => {
 
   const ProfileDetails = () => {
     return (
-      <Container style={common.container}>
+      <Container >
         <Header title="Profile" />
         {showForm ? (
           <UserEdit

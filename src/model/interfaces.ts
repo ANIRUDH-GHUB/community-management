@@ -3,7 +3,7 @@ export interface USER {
   name: string;
   mobileNum?: string;
   password: string;
-  dob?: string;
+  dob?: Date;
   noOfResidents?: string;
   unit?: string;
   genre?: string;

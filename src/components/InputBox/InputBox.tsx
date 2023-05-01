@@ -1,22 +1,46 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+  KeyboardTypeOptions,
+  Text,
+} from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { colors } from "../../../constants/variables";
-
+import common from "./../../../constants/Styles";
+import Divider from "../Divider";
 interface InputProps {
   placeholder?: string;
-  onChangeText?: any;
+  onChangeText?: ((text: string) => void) | undefined;
   value: string;
   type?: any;
   customStyle?: any;
-  customTextStyle?:any;
+  customTextStyle?: any;
   editable?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  error?: string;
+  onRelease?: any;
+  onPress?: any;
 }
 
 const InputBox: React.FC<InputProps> = (props) => {
-  const { placeholder, onChangeText, value, type, customStyle, editable,customTextStyle } = props;
+  const {
+    placeholder,
+    onChangeText,
+    value,
+    type,
+    customStyle,
+    editable,
+    customTextStyle,
+    keyboardType,
+    error,
+    onRelease,
+    onPress
+  } = props;
   const [secure, setSecurity] = useState<boolean>(() => type === "password");
 
   return (
@@ -24,7 +48,7 @@ const InputBox: React.FC<InputProps> = (props) => {
       <View style={[customStyle, styles.inp_container]}>
         <TextInput
           editable={editable}
-          style={[styles.input,customTextStyle]}
+          style={[styles.input, customTextStyle]}
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
@@ -33,7 +57,10 @@ const InputBox: React.FC<InputProps> = (props) => {
           autoCorrect={false}
           autoComplete={"name"}
           autoCapitalize="none"
-          textContentType="emailAddress"
+          textContentType="creditCardNumber"
+          keyboardType={keyboardType}
+          onBlur={onRelease}
+          onPressIn={onPress}
         />
         {type === "password" && (
           <FontAwesome
@@ -48,6 +75,16 @@ const InputBox: React.FC<InputProps> = (props) => {
           </FontAwesome>
         )}
       </View>
+      {error && (
+        <View style={{ minWidth: '85%'}}>
+          <Divider height={20} />
+          <Text
+            style={[common.text, common.sm, common.center, { color: "red" }]}
+          >
+            {error}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -56,6 +93,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
+    flexWrap: 'wrap',
     alignItems: "center",
     width: "100%",
   },
@@ -68,6 +106,7 @@ const styles = StyleSheet.create({
     marginRight: "5%",
     borderColor: colors.bordergray,
     borderRadius: 16,
+    minWidth: "85%",
   },
   input: {
     flex: 1,
@@ -87,7 +126,11 @@ InputBox.defaultProps = {
   customTextStyle: {
     color: colors.white,
   },
-  editable: true
+  editable: true,
+  keyboardType: "default",
+  error: "",
+  onRelease: ()=>{},
+  onPress: ()=>{}
 };
 
 export default InputBox;

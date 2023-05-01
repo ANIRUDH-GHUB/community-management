@@ -61,7 +61,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
   };
 
   return (
-    <Container style={common.container}>
+    <Container>
       <InputBox placeholder="email" value={email} onChangeText={setEmail} />
       <Divider height={30} />
       <InputBox
